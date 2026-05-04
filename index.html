@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEAR ME OUT</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #FAFAF7;
+    font-family: 'Syne', sans-serif;
+    color: #1A1A1A;
+  }
+  .auth-card {
+    width: 100%;
+    max-width: 22rem;
+    text-align: center;
+  }
+  .splash-title {
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: clamp(2rem, 9vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #1A1A1A;
+    line-height: 1.1;
+  }
+  .splash-pink { color: #FF2D8B; }
+  .splash-tagline {
+    margin-top: 1rem;
+    font-family: 'Lora', serif;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    font-style: italic;
+    color: #4A443A;
+    line-height: 1.5;
+  }
+  .auth-note {
+    margin-top: 1.25rem;
+    font-size: 11px;
+    color: #6B6458;
+    line-height: 1.45;
+  }
+  .auth-fields {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+  }
+  .auth-fields label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6B6458;
+  }
+  .auth-fields input {
+    width: 100%;
+    border: 1px solid #DCD5C8;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #F8F5EE;
+    color: #1A1A1A;
+    outline: none;
+  }
+  .auth-fields input:focus {
+    border-color: #2F3645;
+  }
+  .auth-actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-primary {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #2F3645;
+    color: #FAFAF7;
+    cursor: pointer;
+  }
+  .btn-primary:hover { opacity: 0.92; }
+  .btn-secondary {
+    border: 1px solid #DCD5C8;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    background: transparent;
+    color: #4A443A;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: #2F3645; }
+  .auth-msg {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #8b4513;
+    min-height: 1.2em;
+  }
+  .auth-msg.ok { color: #2d6a4f; }
+</style>
+</head>
+<body>
+<div class="auth-card">
+  <h1 class="splash-title">HEAR <span class="splash-pink">ME OUT</span></h1>
+  <p class="splash-tagline">no algorithm. just people.</p>
+  <p class="auth-note">Create an account or log in. Demo only — data stays in this browser (localStorage), not on a server.</p>
+
+  <div class="auth-fields">
+    <div>
+      <label for="auth-display">Display name (sign up)</label>
+      <input id="auth-display" type="text" autocomplete="nickname" placeholder="e.g. Amelia">
+    </div>
+    <div>
+      <label for="auth-email">Email</label>
+      <input id="auth-email" type="email" autocomplete="username" placeholder="you@example.com">
+    </div>
+    <div>
+      <label for="auth-password">Password</label>
+      <input id="auth-password" type="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+  </div>
+
+  <div class="auth-actions">
+    <button type="button" class="btn-primary" onclick="signUpDemo()">Sign up</button>
+    <button type="button" class="btn-secondary" onclick="logInDemo()">Log in</button>
+    <button type="button" class="btn-secondary" onclick="continueGuest()">Continue as guest</button>
+  </div>
+  <p class="auth-msg" id="auth-msg" role="status"></p>
+</div>
+
+<script>
+(function () {
+  var USERS_KEY = 'hearmeout_users';
+  var SESSION_KEY = 'hearmeout_session';
+
+  function getUsers() {
+    try {
+      var raw = localStorage.getItem(USERS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+
+  function setSession(session) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  }
+
+  function msg(text, ok) {
+    var el = document.getElementById('auth-msg');
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'auth-msg' + (ok ? ' ok' : '');
+  }
+
+  function goApp() {
+    window.location.href = 'about.html';
+  }
+
+  window.signUpDemo = function () {
+    var display = document.getElementById('auth-display').value.trim();
+    var email = document.getElementById('auth-email').value.trim().toLowerCase();
+    var password = document.getElementById('auth-password').value;
+
+    if (!email || !password) {
+      msg('Enter email and password.');
+      return;
+    }
+    if (!display) {
+      msg('Add a display name for sign up.');
+      return;
+    }
+
+    var users = getUsers();
+    if (users.some(function (u) { return u.email === email; })) {
+      msg('That email is already signed up. Try Log in.');
+      return;
+    }
+
+    users.push({
+      email: email,
+      password: password,
+      displayName: display,
+      createdAt: Date.now()
+    });
+    saveUsers(users);
+
+    setSession({ type: 'user', email: email, displayName: display });
+    msg('Account created. Entering…', true);
+    setTimeout(goApp, 400);
+  };
+
+  window.logInDemo = function () {
+    var email = document.getElementById('auth-email').value.trim().toLowerCase();
+    var password = document.getElementById('auth-password').value;
+
+    if (!email || !password) {
+      msg('Enter email and password.');
+      return;
+    }
+
+    var users = getUsers();
+    var user = users.find(function (u) {
+      return u.email === email && u.password === password;
+    });
+
+    if (!user) {
+      msg('No match. Check email/password or Sign up.');
+      return;
+    }
+
+    setSession({ type: 'user', email: user.email, displayName: user.displayName });
+    msg('Welcome back. Entering…', true);
+    setTimeout(goApp, 400);
+  };
+
+  window.continueGuest = function () {
+    setSession({ type: 'guest', displayName: 'Guest' });
+    msg('Continuing as guest…', true);
+    setTimeout(goApp, 300);
+  };
+
+  // Already signed in → skip form
+  try {
+    var raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    var o = JSON.parse(raw);
+    if (o && (o.type === 'user' || o.type === 'guest')) goApp();
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
