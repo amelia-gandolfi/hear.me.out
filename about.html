@@ -96,35 +96,31 @@
     --accent2: #2F3645;
   }
  
-  /* =====================
-     NEAR YOU PAGE
-     Click-to-walk third space with floating shapes
-  ===================== */
-  .nearyou-intro {
-    font-family: 'Lora', serif;
-    font-style: italic;
-    font-size: 13px;
-    color: var(--text-mid);
-    margin-bottom: 12px;
-    line-height: 1.5;
+  /* When Near You is active, hide the page padding so the
+     stage can take the full visible area. */
+  body[data-page="nearyou"] .page#page-nearyou {
+    padding: 0;
   }
  
+    /* =====================
+     NEAR YOU PAGE — full-screen interactive third space
+  ===================== */
   .nearyou-stage {
-    position: relative;
-    width: 100%;
-    height: 460px;
-    border: 1px solid var(--border);
-    border-radius: 16px 14px 18px 12px;
+    position: fixed;
+    /* Sits between the sticky header and the bottom nav. */
+    top: 96px;
+    left: 0;
+    right: 0;
+    bottom: var(--nav-h);
     background:
-      radial-gradient(circle at 22% 28%, rgba(255, 45, 139, 0.08), transparent 38%),
-      radial-gradient(circle at 78% 70%, rgba(47, 54, 69, 0.10), transparent 42%),
-      radial-gradient(circle at 50% 90%, rgba(196, 92, 38, 0.06), transparent 45%),
+      radial-gradient(circle at 22% 28%, rgba(255, 45, 139, 0.10), transparent 38%),
+      radial-gradient(circle at 78% 70%, rgba(47, 54, 69, 0.12), transparent 42%),
+      radial-gradient(circle at 50% 92%, rgba(196, 92, 38, 0.07), transparent 45%),
+      radial-gradient(circle at 12% 80%, rgba(69, 123, 157, 0.09), transparent 40%),
       linear-gradient(160deg, #F8F5EE 0%, #EFEAE1 100%);
     overflow: hidden;
-    cursor: crosshair;
-    box-shadow: 0 6px 18px rgba(29, 20, 58, 0.08), inset 0 1px 0 rgba(255,255,255,0.7);
-    transform: rotate(-0.2deg);
-    margin-bottom: 14px;
+    cursor: none;
+    z-index: 1;
   }
  
   .nearyou-stage::before {
@@ -142,105 +138,151 @@
     border-radius: 50%;
     pointer-events: none;
     opacity: 0.55;
-    filter: blur(2px);
+    filter: blur(3px);
   }
  
   .stage-shape.s1 {
-    width: 120px; height: 120px;
-    top: 12%; left: 14%;
-    background: radial-gradient(circle, rgba(255, 45, 139, 0.20), transparent 70%);
+    width: 220px; height: 220px;
+    top: 8%; left: 10%;
+    background: radial-gradient(circle, rgba(255, 45, 139, 0.22), transparent 70%);
     animation: drift1 14s ease-in-out infinite;
   }
   .stage-shape.s2 {
-    width: 90px; height: 90px;
+    width: 180px; height: 180px;
     top: 55%; left: 70%;
     background: radial-gradient(circle, rgba(47, 54, 69, 0.20), transparent 70%);
     animation: drift2 18s ease-in-out infinite;
   }
   .stage-shape.s3 {
-    width: 70px; height: 70px;
-    top: 30%; left: 60%;
+    width: 130px; height: 130px;
+    top: 25%; left: 65%;
     background: radial-gradient(circle, rgba(196, 92, 38, 0.18), transparent 70%);
     animation: drift3 12s ease-in-out infinite;
   }
   .stage-shape.s4 {
-    width: 100px; height: 100px;
-    top: 70%; left: 18%;
+    width: 200px; height: 200px;
+    top: 65%; left: 12%;
     background: radial-gradient(circle, rgba(69, 123, 157, 0.20), transparent 70%);
     animation: drift1 16s ease-in-out infinite reverse;
+  }
+  .stage-shape.s5 {
+    width: 90px; height: 90px;
+    top: 18%; left: 45%;
+    background: radial-gradient(circle, rgba(45, 106, 79, 0.18), transparent 70%);
+    animation: drift2 20s ease-in-out infinite;
   }
  
   @keyframes drift1 {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -16px); }
+    50% { transform: translate(30px, -22px); }
   }
   @keyframes drift2 {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-22px, 14px); }
+    50% { transform: translate(-32px, 20px); }
   }
   @keyframes drift3 {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(14px, 20px); }
+    50% { transform: translate(20px, 28px); }
   }
  
-  /* Avatars on the stage */
-  .stage-avatar {
+  /* Stick figure containers */
+  .stage-figure {
     position: absolute;
-    width: 38px;
-    height: 38px;
-    border-radius: 47% 53% 45% 55%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--bg);
-    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-    border: 2px solid #F8F5EE;
+    width: 56px;
+    height: 72px;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
     z-index: 2;
-    transform: translate(-50%, -50%);
+    transition: filter 0.3s;
   }
  
-  .stage-avatar.is-me {
-    z-index: 5;
-    box-shadow: 0 0 0 3px rgba(255, 45, 139, 0.22), 0 4px 10px rgba(0,0,0,0.22);
-  }
- 
-  .stage-avatar.is-friend {
+  .stage-figure.is-friend {
+    pointer-events: auto;
     cursor: pointer;
+    transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.3s;
   }
  
-  .stage-avatar.is-friend.is-near {
-    box-shadow: 0 0 0 4px rgba(255, 45, 139, 0.32), 0 4px 12px rgba(0,0,0,0.22);
+  .stage-figure.is-me {
+    z-index: 5;
+  }
+ 
+  .stage-figure svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+ 
+  .stage-figure.faces-left svg {
+    transform: scaleX(-1);
+  }
+ 
+  .stage-figure.is-friend.is-near {
+    filter: drop-shadow(0 0 8px rgba(255, 45, 139, 0.55))
+            drop-shadow(0 4px 4px rgba(0,0,0,0.18));
     animation: nearBob 1.6s ease-in-out infinite;
   }
  
+  .stage-figure:not(.is-near) {
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.18));
+  }
+ 
   @keyframes nearBob {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-3px); }
+    0%, 100% { transform: translate(-50%, -100%) translateY(0); }
+    50%      { transform: translate(-50%, -100%) translateY(-4px); }
+  }
+ 
+  /* Walking animation — only when moving */
+  .stage-figure.is-walking .leg-left  { animation: legSwingL 0.5s linear infinite; }
+  .stage-figure.is-walking .leg-right { animation: legSwingR 0.5s linear infinite; }
+  .stage-figure.is-walking .arm-left  { animation: armSwingL 0.5s linear infinite; }
+  .stage-figure.is-walking .arm-right { animation: armSwingR 0.5s linear infinite; }
+ 
+  @keyframes legSwingL {
+    0%, 100% { transform: rotate(15deg);  transform-origin: 28px 42px; }
+    50%      { transform: rotate(-15deg); transform-origin: 28px 42px; }
+  }
+  @keyframes legSwingR {
+    0%, 100% { transform: rotate(-15deg); transform-origin: 28px 42px; }
+    50%      { transform: rotate(15deg);  transform-origin: 28px 42px; }
+  }
+  @keyframes armSwingL {
+    0%, 100% { transform: rotate(-20deg); transform-origin: 28px 24px; }
+    50%      { transform: rotate(20deg);  transform-origin: 28px 24px; }
+  }
+  @keyframes armSwingR {
+    0%, 100% { transform: rotate(20deg);  transform-origin: 28px 24px; }
+    50%      { transform: rotate(-20deg); transform-origin: 28px 24px; }
   }
  
   .stage-label {
     position: absolute;
-    transform: translate(-50%, calc(-50% - 28px));
-    font-size: 9px;
+    transform: translate(-50%, -100%);
+    margin-top: -12px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
     color: var(--text);
-    background: rgba(248, 245, 238, 0.92);
+    background: rgba(248, 245, 238, 0.94);
     border: 1px solid var(--border);
-    padding: 2px 6px;
-    border-radius: 8px;
+    padding: 3px 8px;
+    border-radius: 999px;
     pointer-events: none;
     white-space: nowrap;
-    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 3;
+    transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+ 
+  .stage-label.is-me {
+    transition: none;
   }
  
   .stage-hint {
     position: absolute;
-    bottom: 10px;
+    top: 14px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 10px;
@@ -249,11 +291,16 @@
     text-transform: uppercase;
     color: var(--text-dim);
     background: rgba(248, 245, 238, 0.85);
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--border);
     pointer-events: none;
     z-index: 4;
+    transition: opacity 0.4s;
+  }
+ 
+  .stage-hint.is-faded {
+    opacity: 0;
   }
  
   /* Modal — view person + comment */
@@ -290,20 +337,12 @@
     margin-bottom: 14px;
   }
  
-  .nearyou-modal-avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 47% 53% 45% 55%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--bg);
+  .nearyou-modal-figure {
+    width: 48px;
+    height: 60px;
     flex-shrink: 0;
-    border: 2px solid #F8F5EE;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
+  .nearyou-modal-figure svg { width: 100%; height: 100%; display: block; }
  
   .nearyou-modal-name {
     font-size: 16px;
@@ -2352,20 +2391,15 @@
      PAGE: NEAR YOU
 ===================== -->
 <div class="page" id="page-nearyou">
- 
-  <div class="section-label">Near You</div>
-  <p class="nearyou-intro">a quiet third space. tap anywhere to walk. get close to someone to say hi.</p>
- 
-  <div class="nearyou-stage" id="nearyou-stage" onclick="walkTo(event)">
-    <!-- floating dreamy shapes -->
+  <div class="nearyou-stage" id="nearyou-stage">
     <div class="stage-shape s1"></div>
     <div class="stage-shape s2"></div>
     <div class="stage-shape s3"></div>
     <div class="stage-shape s4"></div>
-    <!-- avatars + labels are injected by JS -->
-    <div class="stage-hint">tap anywhere to walk · tap a person to say hi</div>
+    <div class="stage-shape s5"></div>
+    <div class="stage-hint" id="stage-hint">move your mouse to walk · get close to say hi</div>
+    <!-- figures + labels are injected by JS -->
   </div>
- 
 </div>
  
 <!-- Modal for "say hi" interaction -->
@@ -2373,7 +2407,7 @@
      onclick="if (event.target === this) closeNearYouModal()">
   <div class="nearyou-modal" role="dialog" aria-modal="true" aria-labelledby="nearyou-modal-name">
     <div class="nearyou-modal-head">
-      <div class="nearyou-modal-avatar" id="nearyou-modal-avatar">??</div>
+      <div class="nearyou-modal-figure" id="nearyou-modal-figure"></div>
       <div>
         <div class="nearyou-modal-name" id="nearyou-modal-name">—</div>
         <div class="nearyou-modal-handle" id="nearyou-modal-handle">@—</div>
@@ -2970,112 +3004,97 @@
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   }
-
- // ----------------------------
-  // NEAR YOU — interactive third space
+// ----------------------------
+  // NEAR YOU — interactive third space (v2)
+  // mouse-follow movement · stick figure icons · full-page stage
   // ----------------------------
  
-  // Demo "people" you can bump into in the space.
-  // Mix of friends from the existing data + ambient AI characters.
   var nearYouPeople = [
-    // Friends (handles match the rest of your app)
-    { id: 'p1', handle: '@danielc',         name: 'Daniel C.',     color: '#c45c26', listening: 'Bright Future — Adrianne Lenker',  x: 22, y: 30, friend: true,  ai: false },
-    { id: 'p2', handle: '@soph.listens',    name: 'Sophie',        color: '#6b4f8e', listening: 'Afrique Victime — Mdou Moctar',     x: 72, y: 22, friend: true,  ai: false },
-    { id: 'p3', handle: '@rem.ears',        name: 'Rem',           color: '#2d6a4f', listening: 'Space 1.8 — Nala Sinephro',          x: 60, y: 65, friend: true,  ai: false },
-    { id: 'p4', handle: '@brooklyn.nights', name: 'Brooklyn',      color: '#1d3557', listening: 'Neon Streets — Ezra Collective',     x: 32, y: 78, friend: true,  ai: false },
-    // Ambient strangers (AI / demo)
-    { id: 'p5', handle: '@violet.hums',     name: 'Violet',        color: '#FF2D8B', listening: 'Lantern Radio — Esperanza Spalding', x: 80, y: 50, friend: false, ai: true  },
-    { id: 'p6', handle: '@quiet.kid',       name: 'Quiet Kid',     color: '#457b9d', listening: 'Vinyl Dreams — Bon Iver',             x: 14, y: 55, friend: false, ai: true  },
-    { id: 'p7', handle: '@orange.sundays',  name: 'Orange',        color: '#e63946', listening: 'Gold — Alabaster dePlume',            x: 48, y: 14, friend: false, ai: true  }
+    { id: 'p1', handle: '@danielc',         name: 'Daniel C.',  color: '#c45c26', listening: 'Bright Future — Adrianne Lenker',  x: 22, y: 30, friend: true,  ai: false },
+    { id: 'p2', handle: '@soph.listens',    name: 'Sophie',     color: '#6b4f8e', listening: 'Afrique Victime — Mdou Moctar',    x: 72, y: 22, friend: true,  ai: false },
+    { id: 'p3', handle: '@rem.ears',        name: 'Rem',        color: '#2d6a4f', listening: 'Space 1.8 — Nala Sinephro',         x: 60, y: 65, friend: true,  ai: false },
+    { id: 'p4', handle: '@brooklyn.nights', name: 'Brooklyn',   color: '#1d3557', listening: 'Neon Streets — Ezra Collective',    x: 32, y: 78, friend: true,  ai: false },
+    { id: 'p5', handle: '@violet.hums',     name: 'Violet',     color: '#FF2D8B', listening: 'Lantern Radio — Esperanza Spalding',x: 80, y: 50, friend: false, ai: true  },
+    { id: 'p6', handle: '@quiet.kid',       name: 'Quiet Kid',  color: '#457b9d', listening: 'Vinyl Dreams — Bon Iver',           x: 14, y: 55, friend: false, ai: true  },
+    { id: 'p7', handle: '@orange.sundays',  name: 'Orange',     color: '#e63946', listening: 'Gold — Alabaster dePlume',          x: 48, y: 14, friend: false, ai: true  }
   ];
  
-  // Threshold (in % of stage size) for "near enough to interact"
-  var NEARBY_THRESHOLD = 14;
- 
-  // Comments are kept in memory per person for this demo
+  var NEARBY_THRESHOLD = 11;
   var nearYouComments = {};
-  // Player position (% based, so it scales with the stage)
   var myPos = { x: 50, y: 50 };
+  var lastMyPos = { x: 50, y: 50 };
+  var myFacingLeft = false;
+  var walkTimeout = null;
+  var stageRect = null;
  
-  function nearYouMyInitials() {
+  function readSession() {
     try {
       var raw = localStorage.getItem('hearmeout_session');
-      if (!raw) return 'ME';
-      var s = JSON.parse(raw);
-      var name = (s && s.displayName) || 'You';
-      var parts = String(name).trim().split(/\s+/);
-      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    } catch (e) { return 'ME'; }
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
   }
  
   function nearYouMyColor() {
-    try {
-      var raw = localStorage.getItem('hearmeout_session');
-      if (!raw) return '#2F3645';
-      var s = JSON.parse(raw);
-      return (s && s.avatarColor) || '#2F3645';
-    } catch (e) { return '#2F3645'; }
+    var s = readSession();
+    return (s && s.avatarColor) || '#2F3645';
   }
  
   function nearYouMyHandle() {
-    try {
-      var raw = localStorage.getItem('hearmeout_session');
-      if (!raw) return '@you';
-      var s = JSON.parse(raw);
-      if (s && s.email) {
-        var local = String(s.email).split('@')[0] || 'you';
-        return '@' + local.replace(/[^a-z0-9._-]/gi, '');
-      }
-    } catch (e) {}
+    var s = readSession();
+    if (s && s.email) {
+      var local = String(s.email).split('@')[0] || 'you';
+      return '@' + local.replace(/[^a-z0-9._-]/gi, '');
+    }
     return '@you';
   }
  
-  function initialsFor(name) {
-    if (!name) return '?';
-    var parts = String(name).trim().split(/\s+/);
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  function stickFigureSVG(color) {
+    return '' +
+      '<svg viewBox="0 0 56 72" xmlns="http://www.w3.org/2000/svg">' +
+        '<circle cx="28" cy="12" r="9" fill="' + color + '" stroke="#1A1A1A" stroke-width="1.5"/>' +
+        '<line x1="28" y1="21" x2="28" y2="44" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<line class="arm-left"  x1="28" y1="26" x2="18" y2="36" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<line class="arm-right" x1="28" y1="26" x2="38" y2="36" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<line class="leg-left"  x1="28" y1="44" x2="20" y2="62" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<line class="leg-right" x1="28" y1="44" x2="36" y2="62" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
+      '</svg>';
   }
  
   function buildNearYouStage() {
     var stage = document.getElementById('nearyou-stage');
     if (!stage) return;
-    // Remove any previously rendered avatars/labels (keep shapes + hint)
-    stage.querySelectorAll('.stage-avatar, .stage-label').forEach(function (el) { el.remove(); });
+    stage.querySelectorAll('.stage-figure, .stage-label').forEach(function (el) { el.remove(); });
  
-    // Render me
+    // ME
     var me = document.createElement('div');
-    me.className = 'stage-avatar is-me';
-    me.id = 'me-avatar';
-    me.textContent = nearYouMyInitials();
-    me.style.background = nearYouMyColor();
+    me.className = 'stage-figure is-me';
+    me.id = 'me-figure';
+    me.innerHTML = stickFigureSVG(nearYouMyColor());
     me.style.left = myPos.x + '%';
     me.style.top = myPos.y + '%';
     stage.appendChild(me);
  
     var meLabel = document.createElement('div');
-    meLabel.className = 'stage-label';
+    meLabel.className = 'stage-label is-me';
     meLabel.id = 'me-label';
     meLabel.textContent = 'you';
     meLabel.style.left = myPos.x + '%';
     meLabel.style.top = myPos.y + '%';
     stage.appendChild(meLabel);
  
-    // Render people
+    // PEOPLE
     nearYouPeople.forEach(function (p) {
-      var av = document.createElement('div');
-      av.className = 'stage-avatar is-friend';
-      av.dataset.id = p.id;
-      av.textContent = initialsFor(p.name);
-      av.style.background = p.color;
-      av.style.left = p.x + '%';
-      av.style.top = p.y + '%';
-      av.addEventListener('click', function (e) {
+      var fig = document.createElement('div');
+      fig.className = 'stage-figure is-friend';
+      fig.dataset.id = p.id;
+      fig.innerHTML = stickFigureSVG(p.color);
+      fig.style.left = p.x + '%';
+      fig.style.top = p.y + '%';
+      fig.addEventListener('click', function (e) {
         e.stopPropagation();
         tryInteract(p.id);
       });
-      stage.appendChild(av);
+      stage.appendChild(fig);
  
       var lbl = document.createElement('div');
       lbl.className = 'stage-label';
@@ -3086,27 +3105,76 @@
       stage.appendChild(lbl);
     });
  
+    cacheStageRect();
     updateNearbyHighlights();
     startAmbientWander();
+    bindStagePointer();
   }
  
-  function walkTo(event) {
-    // Ignore clicks on a person (they bubble through stopPropagation already)
+  function cacheStageRect() {
+    var stage = document.getElementById('nearyou-stage');
+    if (stage) stageRect = stage.getBoundingClientRect();
+  }
+ 
+  function bindStagePointer() {
     var stage = document.getElementById('nearyou-stage');
     if (!stage) return;
-    var rect = stage.getBoundingClientRect();
-    var px = event.clientX - rect.left;
-    var py = event.clientY - rect.top;
-    var xPct = Math.max(4, Math.min(96, (px / rect.width) * 100));
-    var yPct = Math.max(6, Math.min(94, (py / rect.height) * 100));
+    if (stage.dataset.bound === '1') return;
+    stage.dataset.bound = '1';
+ 
+    stage.addEventListener('mousemove', handleStagePointer);
+    stage.addEventListener('touchmove', function (e) {
+      if (!e.touches || !e.touches[0]) return;
+      handleStagePointer({
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY
+      });
+      e.preventDefault();
+    }, { passive: false });
+ 
+    window.addEventListener('resize', cacheStageRect);
+    window.addEventListener('scroll', cacheStageRect, { passive: true });
+  }
+ 
+  function handleStagePointer(ev) {
+    if (!stageRect) cacheStageRect();
+    if (!stageRect) return;
+ 
+    var px = ev.clientX - stageRect.left;
+    var py = ev.clientY - stageRect.top;
+    var xPct = Math.max(4, Math.min(96, (px / stageRect.width) * 100));
+    var yPct = Math.max(8, Math.min(96, (py / stageRect.height) * 100));
+ 
+    var dx = xPct - lastMyPos.x;
+    if (Math.abs(dx) > 0.4) myFacingLeft = dx < 0;
+ 
+    lastMyPos.x = myPos.x;
+    lastMyPos.y = myPos.y;
     myPos.x = xPct;
     myPos.y = yPct;
-    var me = document.getElementById('me-avatar');
+ 
+    var me = document.getElementById('me-figure');
     var lbl = document.getElementById('me-label');
-    if (me) { me.style.left = xPct + '%'; me.style.top = yPct + '%'; }
-    if (lbl) { lbl.style.left = xPct + '%'; lbl.style.top = yPct + '%'; }
-    // Re-check who is nearby after walking
-    setTimeout(updateNearbyHighlights, 600);
+    if (me) {
+      me.style.left = xPct + '%';
+      me.style.top = yPct + '%';
+      me.classList.toggle('faces-left', myFacingLeft);
+      me.classList.add('is-walking');
+    }
+    if (lbl) {
+      lbl.style.left = xPct + '%';
+      lbl.style.top = yPct + '%';
+    }
+ 
+    if (walkTimeout) clearTimeout(walkTimeout);
+    walkTimeout = setTimeout(function () {
+      if (me) me.classList.remove('is-walking');
+    }, 120);
+ 
+    updateNearbyHighlights();
+ 
+    var hint = document.getElementById('stage-hint');
+    if (hint) hint.classList.add('is-faded');
   }
  
   function distanceTo(p) {
@@ -3117,10 +3185,10 @@
  
   function updateNearbyHighlights() {
     nearYouPeople.forEach(function (p) {
-      var av = document.querySelector('.stage-avatar[data-id="' + p.id + '"]');
-      if (!av) return;
-      if (distanceTo(p) <= NEARBY_THRESHOLD) av.classList.add('is-near');
-      else av.classList.remove('is-near');
+      var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
+      if (!fig) return;
+      if (distanceTo(p) <= NEARBY_THRESHOLD) fig.classList.add('is-near');
+      else fig.classList.remove('is-near');
     });
   }
  
@@ -3137,8 +3205,8 @@
   function openNearYouModal(p) {
     var bd = document.getElementById('nearyouModalBackdrop');
     if (!bd) return;
-    document.getElementById('nearyou-modal-avatar').textContent = initialsFor(p.name);
-    document.getElementById('nearyou-modal-avatar').style.background = p.color;
+    var fig = document.getElementById('nearyou-modal-figure');
+    if (fig) fig.innerHTML = stickFigureSVG(p.color);
     document.getElementById('nearyou-modal-name').textContent = p.name;
     document.getElementById('nearyou-modal-handle').textContent = p.handle;
     document.getElementById('nearyou-modal-track').textContent = p.listening;
@@ -3190,39 +3258,52 @@
     if (typeof showToast === 'function') showToast('Said hi ✦');
   }
  
-  // Ambient wander — gives the space a bit of life.
-  // AI characters drift slowly, friends stay put.
   var nearYouWanderTimer = null;
- 
   function startAmbientWander() {
     if (nearYouWanderTimer) clearInterval(nearYouWanderTimer);
     nearYouWanderTimer = setInterval(function () {
-      // Only wander while the page is visible
       var page = document.getElementById('page-nearyou');
       if (!page || !page.classList.contains('active')) return;
       nearYouPeople.forEach(function (p) {
         if (!p.ai) return;
-        var nx = p.x + (Math.random() * 8 - 4);
-        var ny = p.y + (Math.random() * 8 - 4);
+        var oldX = p.x;
+        var nx = p.x + (Math.random() * 6 - 3);
+        var ny = p.y + (Math.random() * 6 - 3);
         p.x = Math.max(6, Math.min(94, nx));
-        p.y = Math.max(8, Math.min(92, ny));
-        var av = document.querySelector('.stage-avatar[data-id="' + p.id + '"]');
+        p.y = Math.max(10, Math.min(94, ny));
+        var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
         var lbl = document.querySelector('.stage-label[data-label-for="' + p.id + '"]');
-        if (av)  { av.style.left  = p.x + '%'; av.style.top  = p.y + '%'; }
-        if (lbl) { lbl.style.left = p.x + '%'; lbl.style.top = p.y + '%'; }
+        if (fig) {
+          fig.style.left = p.x + '%';
+          fig.style.top = p.y + '%';
+          fig.classList.toggle('faces-left', (p.x - oldX) < 0);
+          fig.classList.add('is-walking');
+          setTimeout(function () { fig.classList.remove('is-walking'); }, 600);
+        }
+        if (lbl) {
+          lbl.style.left = p.x + '%';
+          lbl.style.top  = p.y + '%';
+        }
       });
       updateNearbyHighlights();
     }, 2800);
   }
  
-  // Build the stage on load (it's hidden until the tab is opened, but DOM is ready)
   document.addEventListener('DOMContentLoaded', buildNearYouStage);
-  // Fallback in case DOMContentLoaded already fired (script is at end of body)
   if (document.readyState === 'interactive' || document.readyState === 'complete') {
     buildNearYouStage();
   }
  
-  // Close modal on Escape
+  // Re-cache the stage's screen rect whenever the user opens this page
+  (function watchPageSwitch() {
+    var origShow = window.showPage;
+    if (typeof origShow !== 'function') return;
+    window.showPage = function (name, btnEl) {
+      origShow(name, btnEl);
+      if (name === 'nearyou') setTimeout(cacheStageRect, 50);
+    };
+  })();
+ 
   document.addEventListener('keydown', function (e) {
     var bd = document.getElementById('nearyouModalBackdrop');
     if (e.key === 'Escape' && bd && bd.classList.contains('is-open')) {
