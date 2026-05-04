@@ -239,6 +239,200 @@
     flex-shrink: 0;
   }
 
+  button.avatar-small.avatar-btn {
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button.avatar-small.avatar-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Profile edit (header avatar) */
+  .profile-edit-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    background: rgba(26, 26, 26, 0.35);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .profile-edit-backdrop.is-open {
+    display: flex;
+  }
+
+  .profile-edit-panel {
+    width: 100%;
+    max-width: 22rem;
+    background: #F8F5EE;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 20px 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  }
+
+  .profile-edit-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .profile-edit-field {
+    margin-bottom: 14px;
+  }
+
+  .profile-edit-field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .profile-edit-field input[type="text"] {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+  }
+
+  .profile-edit-field input[type="text"]:focus {
+    border-color: var(--accent);
+  }
+
+  .profile-edit-color-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .profile-edit-color-row input[type="color"] {
+    width: 48px;
+    height: 36px;
+    padding: 2px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    cursor: pointer;
+  }
+
+  .color-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .color-preset {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+
+  .color-preset:hover {
+    transform: scale(1.08);
+  }
+
+  .color-preset.is-selected {
+    border-color: var(--text);
+    box-shadow: 0 0 0 1px var(--bg);
+  }
+
+  .profile-edit-preview-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 12px;
+    border: 1px dashed var(--border);
+  }
+
+  .profile-edit-preview {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .profile-edit-preview-note {
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+
+  .profile-edit-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .profile-edit-save {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--bg);
+    cursor: pointer;
+  }
+
+  .profile-edit-save:hover {
+    opacity: 0.92;
+  }
+
+  .profile-edit-cancel {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    background: transparent;
+    color: var(--text-mid);
+    cursor: pointer;
+  }
+
+  .profile-edit-cancel:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
   /* =====================
      BOTTOM NAV
   ===================== */
@@ -999,7 +1193,30 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .profile-logout-wrap {
     margin-bottom: 24px;
+  }
+
+  .profile-logout {
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .profile-logout:hover {
+    color: var(--text-mid);
   }
 
   .stat-cell {
@@ -1230,6 +1447,18 @@
 </style>
 </head>
 <body data-page="feed">
+<script>
+(function () {
+  try {
+    var raw = localStorage.getItem('hearmeout_session');
+    if (!raw) throw new Error('no session');
+    var o = JSON.parse(raw);
+    if (!o || (o.type !== 'user' && o.type !== 'guest')) throw new Error('bad session');
+  } catch (e) {
+    window.location.replace('index.html');
+  }
+})();
+</script>
 
 <div id="splash" class="splash-screen" role="button" tabindex="0" aria-label="Enter site">
   <div class="splash-inner">
@@ -1258,9 +1487,34 @@
         <button class="notif-mark" type="button" onclick="markNotificationsRead()">Mark as read</button>
       </div>
     </div>
-    <div class="avatar-small">AG</div>
+    <button type="button" class="avatar-small avatar-btn" id="header-avatar" onclick="openProfileEdit()" aria-label="Edit profile">AG</button>
   </div>
 </header>
+
+<div id="profileEditBackdrop" class="profile-edit-backdrop" role="presentation" onclick="if (event.target === this) closeProfileEdit()">
+  <div class="profile-edit-panel" role="dialog" aria-modal="true" aria-labelledby="profile-edit-heading" onclick="event.stopPropagation()">
+    <div class="profile-edit-title" id="profile-edit-heading">Edit profile</div>
+    <div class="profile-edit-field">
+      <label for="profile-edit-name">Display name</label>
+      <input type="text" id="profile-edit-name" maxlength="80" autocomplete="nickname" placeholder="Your name">
+    </div>
+    <div class="profile-edit-field">
+      <label for="profile-edit-color">Profile picture color</label>
+      <div class="profile-edit-color-row">
+        <input type="color" id="profile-edit-color" value="#2F3645" aria-label="Pick a custom color">
+        <div class="color-presets" id="profile-edit-presets"></div>
+      </div>
+    </div>
+    <div class="profile-edit-preview-wrap">
+      <div class="profile-edit-preview" id="profile-edit-preview-avatar">AG</div>
+      <p class="profile-edit-preview-note">This color applies to your avatar here and on your profile page.</p>
+    </div>
+    <div class="profile-edit-actions">
+      <button type="button" class="profile-edit-save" onclick="saveProfileEdit()">Save</button>
+      <button type="button" class="profile-edit-cancel" onclick="closeProfileEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <!-- =====================
      PAGE: FEED
@@ -1769,10 +2023,10 @@
 <div class="page" id="page-profile">
 
   <div class="profile-header">
-    <div class="avatar-large">AG</div>
+    <div class="avatar-large" id="profile-avatar-letters" aria-hidden="true">AG</div>
     <div>
-      <div class="profile-name">Amelia Gandolfi</div>
-      <div class="profile-handle">@amelia.gandolfi · Brooklyn, NY</div>
+      <div class="profile-name" id="profile-display-name">Amelia Gandolfi</div>
+      <div class="profile-handle" id="profile-handle-line">@amelia.gandolfi · Brooklyn, NY</div>
       <div class="profile-current" id="profile-current-line"><strong>Currently listening to:</strong> Carla's Song — Harry Styles</div>
       <input
         class="profile-current-input"
@@ -1793,6 +2047,10 @@
       <div class="stat-num">34</div>
       <div class="stat-label">Friends</div>
     </div>
+  </div>
+
+  <div class="profile-logout-wrap">
+    <button type="button" class="profile-logout" onclick="logOutDemo()">Log out</button>
   </div>
 
   <div class="section-label">Favorite Albums</div>
@@ -2068,11 +2326,245 @@
     if (!line) return;
     const text = value.trim();
     if (!text) {
-      line.innerHTML = '<strong>Currently listening to:</strong> —';
+      line.innerHTML = '<strong>Currently listening to:</strong> Carla\'s Song — Harry Styles';
+      saveListeningToSession(null);
       return;
     }
     line.innerHTML = '<strong>Currently listening to:</strong> ' + text;
+    saveListeningToSession(text);
   }
+
+  var SESSION_KEY_OUT = 'hearmeout_session';
+
+  function getSessionOut() {
+    try {
+      var raw = localStorage.getItem(SESSION_KEY_OUT);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveListeningToSession(text) {
+    var sess = getSessionOut();
+    if (!sess) return;
+    if (text && String(text).trim()) sess.listeningTo = String(text).trim();
+    else delete sess.listeningTo;
+    localStorage.setItem(SESSION_KEY_OUT, JSON.stringify(sess));
+  }
+
+  function normalizeHex(hex) {
+    if (!hex || typeof hex !== 'string') return '#2f3645';
+    var h = hex.trim();
+    if (h[0] !== '#') h = '#' + h;
+    if (h.length === 4 && /^#[0-9A-Fa-f]{3}$/.test(h)) {
+      h = '#' + h[1] + h[1] + h[2] + h[2] + h[3] + h[3];
+    }
+    if (!/^#[0-9A-Fa-f]{6}$/.test(h)) return '#2f3645';
+    return h.toLowerCase();
+  }
+
+  function contrastTextForAvatar(hex) {
+    var n = normalizeHex(hex).slice(1);
+    var r = parseInt(n.slice(0, 2), 16);
+    var g = parseInt(n.slice(2, 4), 16);
+    var b = parseInt(n.slice(4, 6), 16);
+    var y = (r * 299 + g * 587 + b * 114) / 1000;
+    return y > 150 ? '#1A1A1A' : '#FAFAF7';
+  }
+
+  function applyAvatarColor(hex) {
+    var h = normalizeHex(hex);
+    var fg = contrastTextForAvatar(h);
+    var head = document.getElementById('header-avatar');
+    var big = document.getElementById('profile-avatar-letters');
+    [head, big].forEach(function (el) {
+      if (!el) return;
+      el.style.background = h;
+      el.style.color = fg;
+    });
+  }
+
+  function clearAvatarColorStyles() {
+    var head = document.getElementById('header-avatar');
+    var big = document.getElementById('profile-avatar-letters');
+    [head, big].forEach(function (el) {
+      if (!el) return;
+      el.style.background = '';
+      el.style.color = '';
+    });
+  }
+
+  function syncPresetSelected(hex) {
+    var n = normalizeHex(hex);
+    document.querySelectorAll('.color-preset').forEach(function (btn) {
+      var bh = btn.getAttribute('data-hex');
+      btn.classList.toggle('is-selected', bh && normalizeHex(bh) === n);
+    });
+  }
+
+  function updateProfileEditPreview() {
+    var prev = document.getElementById('profile-edit-preview-avatar');
+    var colorEl = document.getElementById('profile-edit-color');
+    var nameEl = document.getElementById('profile-edit-name');
+    if (!prev || !colorEl) return;
+    var hex = normalizeHex(colorEl.value);
+    var nm = nameEl && nameEl.value.trim();
+    var sess = getSessionOut();
+    var display = nm || (sess && sess.displayName) || 'You';
+    prev.textContent = initialsFromDisplayName(display);
+    prev.style.background = hex;
+    prev.style.color = contrastTextForAvatar(hex);
+  }
+
+  function openProfileEdit() {
+    var notif = document.getElementById('notifWrap');
+    if (notif) notif.classList.remove('open');
+    var sess = getSessionOut();
+    if (!sess) return;
+    var nameEl = document.getElementById('profile-edit-name');
+    var colorEl = document.getElementById('profile-edit-color');
+    if (nameEl) nameEl.value = sess.displayName || '';
+    var hex = sess.avatarColor ? normalizeHex(sess.avatarColor) : '#2f3645';
+    if (colorEl) colorEl.value = hex;
+    syncPresetSelected(hex);
+    updateProfileEditPreview();
+    var bd = document.getElementById('profileEditBackdrop');
+    if (bd) {
+      bd.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    if (nameEl) setTimeout(function () { nameEl.focus(); }, 0);
+  }
+
+  function closeProfileEdit() {
+    var bd = document.getElementById('profileEditBackdrop');
+    if (bd) bd.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function saveProfileEdit() {
+    var sess = getSessionOut();
+    if (!sess) return;
+    var nameEl = document.getElementById('profile-edit-name');
+    var colorEl = document.getElementById('profile-edit-color');
+    var name = nameEl && nameEl.value.trim();
+    var hex = colorEl ? normalizeHex(colorEl.value) : '#2f3645';
+    if (!name) name = sess.displayName || 'Guest';
+    sess.displayName = name;
+    sess.avatarColor = hex;
+    localStorage.setItem(SESSION_KEY_OUT, JSON.stringify(sess));
+    if (sess.type === 'user' && sess.email) {
+      try {
+        var raw = localStorage.getItem('hearmeout_users');
+        var users = raw ? JSON.parse(raw) : [];
+        var idx = users.findIndex(function (u) { return u.email === sess.email; });
+        if (idx !== -1) {
+          users[idx].displayName = name;
+          localStorage.setItem('hearmeout_users', JSON.stringify(users));
+        }
+      } catch (e) {}
+    }
+    applySessionToUI();
+    closeProfileEdit();
+  }
+
+  function initialsFromDisplayName(name) {
+    if (!name || !String(name).trim()) return '?';
+    var parts = String(name).trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+
+  function handleFromSessionEmail(email) {
+    if (!email) return '@guest';
+    var local = email.split('@')[0] || 'user';
+    return '@' + local.replace(/[^a-z0-9._-]/gi, '');
+  }
+
+  function applySessionToUI() {
+    var sess = getSessionOut();
+    if (!sess) return;
+
+    var display = sess.displayName || 'Guest';
+    var initials = initialsFromDisplayName(display);
+
+    var nameEl = document.getElementById('profile-display-name');
+    var handleEl = document.getElementById('profile-handle-line');
+    var headAv = document.getElementById('header-avatar');
+    var bigAv = document.getElementById('profile-avatar-letters');
+
+    if (nameEl) nameEl.textContent = display;
+    if (handleEl) {
+      if (sess.type === 'guest') {
+        handleEl.textContent = '@guest · browsing demo';
+      } else {
+        handleEl.textContent = handleFromSessionEmail(sess.email) + ' · Brooklyn, NY';
+      }
+    }
+    if (headAv) headAv.textContent = initials;
+    if (bigAv) bigAv.textContent = initials;
+
+    var inp = document.getElementById('profile-current-input');
+    var line = document.getElementById('profile-current-line');
+    if (sess.listeningTo && String(sess.listeningTo).trim()) {
+      if (inp) inp.value = sess.listeningTo;
+      if (line) {
+        line.innerHTML = '<strong>Currently listening to:</strong> ' + sess.listeningTo;
+      }
+    }
+
+    if (sess.avatarColor) {
+      applyAvatarColor(sess.avatarColor);
+    } else {
+      clearAvatarColorStyles();
+    }
+  }
+
+  function logOutDemo() {
+    localStorage.removeItem(SESSION_KEY_OUT);
+    window.location.href = 'index.html';
+  }
+
+  applySessionToUI();
+
+  (function initProfileEdit() {
+    var wrap = document.getElementById('profile-edit-presets');
+    if (wrap) {
+      var presets = ['#2F3645', '#FF2D8B', '#2d6a4f', '#6b4f8e', '#c45c26', '#1d3557', '#e63946', '#457b9d'];
+      presets.forEach(function (hex) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'color-preset';
+        b.style.background = hex;
+        b.setAttribute('data-hex', hex);
+        b.setAttribute('aria-label', 'Use color ' + hex);
+        b.addEventListener('click', function () {
+          var ci = document.getElementById('profile-edit-color');
+          if (ci) ci.value = hex;
+          syncPresetSelected(hex);
+          updateProfileEditPreview();
+        });
+        wrap.appendChild(b);
+      });
+    }
+    var ci = document.getElementById('profile-edit-color');
+    if (ci) {
+      ci.addEventListener('input', function () {
+        syncPresetSelected(ci.value);
+        updateProfileEditPreview();
+      });
+    }
+    var ni = document.getElementById('profile-edit-name');
+    if (ni) ni.addEventListener('input', updateProfileEditPreview);
+    document.addEventListener('keydown', function (e) {
+      var bd = document.getElementById('profileEditBackdrop');
+      if (e.key === 'Escape' && bd && bd.classList.contains('is-open')) {
+        e.preventDefault();
+        closeProfileEdit();
+      }
+    });
+  })();
 
   // ----------------------------
   // LIKE BUTTON
