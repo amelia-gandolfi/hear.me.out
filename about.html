@@ -364,16 +364,16 @@
     border: 1px solid var(--border);
     pointer-events: none;
     z-index: 7;
-    transition: opacity 0.4s;
   }
-  .stage-hint.is-faded { opacity: 0; }
- 
-  /* Emote button row (bottom-left of stage) */
+
+  /* Emote button row (bottom center of stage) */
   .stage-emotes {
     position: absolute;
-    left: 14px;
+    left: 50%;
     bottom: 14px;
+    transform: translateX(-50%);
     display: flex;
+    justify-content: center;
     gap: 8px;
     z-index: 7;
   }
@@ -3133,7 +3133,14 @@
     { id: 'p4', handle: '@brooklyn.nights', name: 'Brooklyn',   color: '#1d3557', listening: 'Neon Streets — Ezra Collective',    x: 32, y: 78, friend: true,  ai: false },
     { id: 'p5', handle: '@violet.hums',     name: 'Violet',     color: '#FF2D8B', listening: 'Lantern Radio — Esperanza Spalding',x: 80, y: 50, friend: false, ai: true  },
     { id: 'p6', handle: '@quiet.kid',       name: 'Quiet Kid',  color: '#457b9d', listening: 'Vinyl Dreams — Bon Iver',           x: 14, y: 55, friend: false, ai: true  },
-    { id: 'p7', handle: '@orange.sundays',  name: 'Orange',     color: '#e63946', listening: 'Gold — Alabaster dePlume',          x: 48, y: 14, friend: false, ai: true  }
+    { id: 'p7', handle: '@orange.sundays',  name: 'Orange',     color: '#e63946', listening: 'Gold — Alabaster dePlume',          x: 48, y: 14, friend: false, ai: true  },
+    { id: 'p8', handle: '@katiebop',        name: 'Katie',      color: '#bc6c25', listening: 'Yukon — Justin Bieber',             x: 40, y: 40, friend: true,  ai: false },
+    { id: 'p9', handle: '@emmalauren',      name: 'Emma Lauren',color: '#9b59b6', listening: 'Landslide — Fleetwood Mac',         x: 88, y: 72, friend: true,  ai: false },
+    { id: 'p10', handle: '@gracie1569',      name: 'Gracie',     color: '#27ae60', listening: 'Tell You Straight — Jigitz',        x: 25, y: 88, friend: true,  ai: false },
+    { id: 'p11', handle: '@tellertt',        name: 'Teller',     color: '#3498db', listening: 'Piano Man — Billy Joel',            x: 55, y: 38, friend: true,  ai: false },
+    { id: 'p12', handle: '@amandap217',      name: 'Amanda',     color: '#e91e63', listening: 'Two of Us — Louis Tomlinson',       x: 10, y: 25, friend: true,  ai: false },
+    { id: 'p13', handle: '@alandrabae2',     name: 'Alandra',    color: '#00bcd4', listening: 'Never Enough — Loren Allred',       x: 70, y: 88, friend: true,  ai: false },
+    { id: 'p14', handle: '@jesshg',          name: 'Jess',       color: '#5c4d7a', listening: 'Adore You — Harry Styles',         x: 18, y: 72, friend: true,  ai: false }
   ];
  
   // Benches scattered around — fixed positions (% based)
@@ -3256,7 +3263,8 @@
       lbl.style.left = p.x + '%';
       lbl.style.top = p.y + '%';
       stage.appendChild(lbl);
- 
+    });
+
     // Single info card — shows nearby person's handle, track, listen-with btn
     var card = document.createElement('div');
     card.className = 'info-card';
@@ -3267,7 +3275,7 @@
       '<button type="button" class="info-card-btn" id="info-card-btn">+ Listen with</button>';
     stage.appendChild(card);
     card.querySelector('#info-card-btn').addEventListener('click', toggleListenWith);
- 
+
     cacheStageRect();
     updateNearbyHighlights();
     startAmbientWander();
@@ -3353,9 +3361,6 @@ else             me.classList.remove('is-walking');
     checkBumps();
     updateListenWithBtn();
     updateLinkLine();
- 
-    var hint = document.getElementById('stage-hint');
-    if (hint) hint.classList.add('is-faded');
   }
  
   function distancePtPt(ax, ay, bx, by) {
@@ -3481,11 +3486,9 @@ else             me.classList.remove('is-walking');
     if (name === 'dance') me.classList.add('is-dancing');
     if (name === 'sit')   me.classList.add('is-sitting');
     syncEmoteButtons();
- 
-    // Auto-clear wave/dance after a few seconds; sit holds until you walk
-    if (name !== 'sit') {
-      myEmoteTimer = setTimeout(clearMyEmote, name === 'wave' ? 2200 : 4000);
-    }
+
+    // Keep emote playing for 6s (moving still cancels earlier via handleStagePointer)
+    myEmoteTimer = setTimeout(clearMyEmote, 6000);
   }
  
   function clearMyEmote() {
