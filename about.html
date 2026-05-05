@@ -96,18 +96,16 @@
     --accent2: #2F3645;
   }
  
-  /* When Near You is active, hide the page padding so the
-     stage can take the full visible area. */
+ 
   body[data-page="nearyou"] .page#page-nearyou {
     padding: 0;
   }
  
-    /* =====================
+  /* =====================
      NEAR YOU PAGE — full-screen interactive third space
   ===================== */
   .nearyou-stage {
     position: fixed;
-    /* Sits between the sticky header and the bottom nav. */
     top: 96px;
     left: 0;
     right: 0;
@@ -140,49 +138,48 @@
     opacity: 0.55;
     filter: blur(3px);
   }
+  .stage-shape.s1 { width: 220px; height: 220px; top: 8%;  left: 10%; background: radial-gradient(circle, rgba(255, 45, 139, 0.22), transparent 70%); animation: drift1 14s ease-in-out infinite; }
+  .stage-shape.s2 { width: 180px; height: 180px; top: 55%; left: 70%; background: radial-gradient(circle, rgba(47, 54, 69, 0.20), transparent 70%); animation: drift2 18s ease-in-out infinite; }
+  .stage-shape.s3 { width: 130px; height: 130px; top: 25%; left: 65%; background: radial-gradient(circle, rgba(196, 92, 38, 0.18), transparent 70%); animation: drift3 12s ease-in-out infinite; }
+  .stage-shape.s4 { width: 200px; height: 200px; top: 65%; left: 12%; background: radial-gradient(circle, rgba(69, 123, 157, 0.20), transparent 70%); animation: drift1 16s ease-in-out infinite reverse; }
+  .stage-shape.s5 { width: 90px;  height: 90px;  top: 18%; left: 45%; background: radial-gradient(circle, rgba(45, 106, 79, 0.18), transparent 70%); animation: drift2 20s ease-in-out infinite; }
  
-  .stage-shape.s1 {
-    width: 220px; height: 220px;
-    top: 8%; left: 10%;
-    background: radial-gradient(circle, rgba(255, 45, 139, 0.22), transparent 70%);
-    animation: drift1 14s ease-in-out infinite;
+  @keyframes drift1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -22px); } }
+  @keyframes drift2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-32px, 20px); } }
+  @keyframes drift3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 28px); } }
+ 
+  /* Benches scattered around the space */
+  .stage-bench {
+    position: absolute;
+    width: 70px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.85;
   }
-  .stage-shape.s2 {
-    width: 180px; height: 180px;
-    top: 55%; left: 70%;
-    background: radial-gradient(circle, rgba(47, 54, 69, 0.20), transparent 70%);
-    animation: drift2 18s ease-in-out infinite;
-  }
-  .stage-shape.s3 {
-    width: 130px; height: 130px;
-    top: 25%; left: 65%;
-    background: radial-gradient(circle, rgba(196, 92, 38, 0.18), transparent 70%);
-    animation: drift3 12s ease-in-out infinite;
-  }
-  .stage-shape.s4 {
-    width: 200px; height: 200px;
-    top: 65%; left: 12%;
-    background: radial-gradient(circle, rgba(69, 123, 157, 0.20), transparent 70%);
-    animation: drift1 16s ease-in-out infinite reverse;
-  }
-  .stage-shape.s5 {
-    width: 90px; height: 90px;
-    top: 18%; left: 45%;
-    background: radial-gradient(circle, rgba(45, 106, 79, 0.18), transparent 70%);
-    animation: drift2 20s ease-in-out infinite;
+  .stage-bench svg { width: 100%; height: 100%; display: block; }
+ 
+  /* Listen-together connecting line (drawn via SVG overlay) */
+  .stage-link-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
   }
  
-  @keyframes drift1 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, -22px); }
+  .stage-link-svg line {
+    stroke: rgba(255, 45, 139, 0.55);
+    stroke-width: 2;
+    stroke-dasharray: 4 6;
+    animation: linkDash 0.9s linear infinite;
   }
-  @keyframes drift2 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-32px, 20px); }
-  }
-  @keyframes drift3 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, 28px); }
+ 
+  @keyframes linkDash {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: -20; }
   }
  
   /* Stick figure containers */
@@ -192,7 +189,7 @@
     height: 72px;
     transform: translate(-50%, -100%);
     pointer-events: none;
-    z-index: 2;
+    z-index: 3;
     transition: filter 0.3s;
   }
  
@@ -204,20 +201,10 @@
                 filter 0.3s;
   }
  
-  .stage-figure.is-me {
-    z-index: 5;
-  }
+  .stage-figure.is-me { z-index: 6; }
  
-  .stage-figure svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    display: block;
-  }
- 
-  .stage-figure.faces-left svg {
-    transform: scaleX(-1);
-  }
+  .stage-figure svg { width: 100%; height: 100%; overflow: visible; display: block; }
+  .stage-figure.faces-left svg { transform: scaleX(-1); }
  
   .stage-figure.is-friend.is-near {
     filter: drop-shadow(0 0 8px rgba(255, 45, 139, 0.55))
@@ -225,38 +212,122 @@
     animation: nearBob 1.6s ease-in-out infinite;
   }
  
-  .stage-figure:not(.is-near) {
-    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.18));
-  }
+  .stage-figure:not(.is-near) { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.18)); }
  
   @keyframes nearBob {
     0%, 100% { transform: translate(-50%, -100%) translateY(0); }
     50%      { transform: translate(-50%, -100%) translateY(-4px); }
   }
  
-  /* Walking animation — only when moving */
+  /* Walking animation — three speeds: slow, normal, fast */
   .stage-figure.is-walking .leg-left  { animation: legSwingL 0.5s linear infinite; }
   .stage-figure.is-walking .leg-right { animation: legSwingR 0.5s linear infinite; }
   .stage-figure.is-walking .arm-left  { animation: armSwingL 0.5s linear infinite; }
   .stage-figure.is-walking .arm-right { animation: armSwingR 0.5s linear infinite; }
  
-  @keyframes legSwingL {
-    0%, 100% { transform: rotate(15deg);  transform-origin: 28px 42px; }
-    50%      { transform: rotate(-15deg); transform-origin: 28px 42px; }
+  .stage-figure.is-running .leg-left  { animation: legSwingL 0.26s linear infinite; }
+  .stage-figure.is-running .leg-right { animation: legSwingR 0.26s linear infinite; }
+  .stage-figure.is-running .arm-left  { animation: armSwingL 0.26s linear infinite; }
+  .stage-figure.is-running .arm-right { animation: armSwingR 0.26s linear infinite; }
+ 
+  .stage-figure.is-tiptoe .leg-left  { animation: legSwingL 0.85s linear infinite; }
+  .stage-figure.is-tiptoe .leg-right { animation: legSwingR 0.85s linear infinite; }
+  .stage-figure.is-tiptoe .arm-left  { animation: armSwingL 0.85s linear infinite; }
+  .stage-figure.is-tiptoe .arm-right { animation: armSwingR 0.85s linear infinite; }
+ 
+  @keyframes legSwingL { 0%, 100% { transform: rotate(15deg);  transform-origin: 28px 42px; } 50% { transform: rotate(-15deg); transform-origin: 28px 42px; } }
+  @keyframes legSwingR { 0%, 100% { transform: rotate(-15deg); transform-origin: 28px 42px; } 50% { transform: rotate(15deg);  transform-origin: 28px 42px; } }
+  @keyframes armSwingL { 0%, 100% { transform: rotate(-20deg); transform-origin: 28px 24px; } 50% { transform: rotate(20deg);  transform-origin: 28px 24px; } }
+  @keyframes armSwingR { 0%, 100% { transform: rotate(20deg);  transform-origin: 28px 24px; } 50% { transform: rotate(-20deg); transform-origin: 28px 24px; } }
+ 
+  /* Wave emote — one arm waves up */
+  .stage-figure.is-waving .arm-right {
+    animation: armWave 0.7s ease-in-out infinite;
+    transform-origin: 28px 24px;
   }
-  @keyframes legSwingR {
-    0%, 100% { transform: rotate(-15deg); transform-origin: 28px 42px; }
-    50%      { transform: rotate(15deg);  transform-origin: 28px 42px; }
-  }
-  @keyframes armSwingL {
-    0%, 100% { transform: rotate(-20deg); transform-origin: 28px 24px; }
-    50%      { transform: rotate(20deg);  transform-origin: 28px 24px; }
-  }
-  @keyframes armSwingR {
-    0%, 100% { transform: rotate(20deg);  transform-origin: 28px 24px; }
-    50%      { transform: rotate(-20deg); transform-origin: 28px 24px; }
+  @keyframes armWave {
+    0%, 100% { transform: rotate(-130deg); }
+    50%      { transform: rotate(-160deg); }
   }
  
+  /* Dance emote — body bobs and arms flail */
+  .stage-figure.is-dancing { animation: danceBob 0.5s ease-in-out infinite; }
+  .stage-figure.is-dancing .arm-left,
+  .stage-figure.is-dancing .arm-right { animation: armDance 0.5s ease-in-out infinite alternate; transform-origin: 28px 24px; }
+  .stage-figure.is-dancing .arm-right { animation-delay: 0.25s; }
+  @keyframes danceBob {
+    0%, 100% { transform: translate(-50%, -100%) translateY(0) rotate(-3deg); }
+    50%      { transform: translate(-50%, -100%) translateY(-3px) rotate(3deg); }
+  }
+  @keyframes armDance {
+    0%   { transform: rotate(-110deg); }
+    100% { transform: rotate(-150deg); }
+  }
+ 
+  /* Sitting — legs forward, body lower */
+  .stage-figure.is-sitting .leg-left  { transform: rotate(85deg)  translate(0px, -2px); transform-origin: 28px 42px; }
+  .stage-figure.is-sitting .leg-right { transform: rotate(95deg)  translate(0px, -2px); transform-origin: 28px 42px; }
+  .stage-figure.is-sitting { transform: translate(-50%, -100%) translateY(14px); }
+  .stage-figure.is-sitting.is-near { animation: none; }
+ 
+  /* Bump bounce */
+  .stage-figure.is-bumped { animation: bumpRecoil 0.4s ease-out 1; }
+  @keyframes bumpRecoil {
+    0%   { transform: translate(-50%, -100%) translateX(0); }
+    25%  { transform: translate(-50%, -100%) translateX(-8px) translateY(-3px); }
+    60%  { transform: translate(-50%, -100%) translateX(4px); }
+    100% { transform: translate(-50%, -100%) translateX(0); }
+  }
+ 
+  .stage-figure.is-friend.is-bumped {
+    animation: bumpRecoilRight 0.4s ease-out 1;
+  }
+  @keyframes bumpRecoilRight {
+    0%   { transform: translate(-50%, -100%) translateX(0); }
+    25%  { transform: translate(-50%, -100%) translateX(8px) translateY(-3px); }
+    60%  { transform: translate(-50%, -100%) translateX(-4px); }
+    100% { transform: translate(-50%, -100%) translateX(0); }
+  }
+ 
+  /* "!" bump indicator */
+  .bump-mark {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    margin-top: -36px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #FF2D8B;
+    pointer-events: none;
+    z-index: 8;
+    animation: bumpMark 0.6s ease-out forwards;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  }
+  @keyframes bumpMark {
+    0%   { opacity: 0; transform: translate(-50%, -100%) translateY(0)   scale(0.6); }
+    30%  { opacity: 1; transform: translate(-50%, -100%) translateY(-10px) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -100%) translateY(-22px) scale(1); }
+  }
+ 
+  /* Music note that drifts up from a figure */
+  .music-note {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    margin-top: -22px;
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    font-weight: 700;
+    animation: noteFloat 3s ease-out forwards;
+  }
+  @keyframes noteFloat {
+    0%   { opacity: 0; transform: translate(-50%, -100%) translateY(0)   translateX(0)  rotate(-8deg) scale(0.8); }
+    15%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -100%) translateY(-50px) translateX(18px) rotate(12deg) scale(1.1); }
+  }
+ 
+ 
+  /* Floating label above each figure (handle) */
   .stage-label {
     position: absolute;
     transform: translate(-50%, -100%);
@@ -271,14 +342,11 @@
     border-radius: 999px;
     pointer-events: none;
     white-space: nowrap;
-    z-index: 3;
+    z-index: 4;
     transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
                 left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
- 
-  .stage-label.is-me {
-    transition: none;
-  }
+  .stage-label.is-me { transition: none; }
  
   .stage-hint {
     position: absolute;
@@ -295,13 +363,122 @@
     border-radius: 999px;
     border: 1px solid var(--border);
     pointer-events: none;
-    z-index: 4;
+    z-index: 7;
     transition: opacity 0.4s;
   }
+  .stage-hint.is-faded { opacity: 0; }
  
-  .stage-hint.is-faded {
-    opacity: 0;
+  /* Emote button row (bottom-left of stage) */
+  .stage-emotes {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    display: flex;
+    gap: 8px;
+    z-index: 7;
   }
+  .emote-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(248, 245, 238, 0.92);
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.15s, border-color 0.2s;
+  }
+  .emote-btn:hover { transform: scale(1.08); border-color: var(--accent); }
+  .emote-btn.is-active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+ /* Info card — replaces the old speech bubble + listen-with button.
+     Floats next to the nearby person, not on top. */
+     .info-card {
+    position: absolute;
+    transform: translateY(-50%);
+    background: #F8F5EE;
+    border: 1px solid var(--border);
+    border-radius: 12px 14px 12px 14px;
+    padding: 10px 12px;
+    width: 200px;
+    pointer-events: none;
+    z-index: 6;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    opacity: 0;
+    transition: opacity 0.25s, top 0.4s cubic-bezier(0.4,0,0.2,1), left 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+ 
+  .info-card.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+ 
+  /* When card sits to the LEFT, flip the corner. Otherwise (right of figure) keep default. */
+  .info-card.side-left  { transform: translate(-100%, -50%); }
+  .info-card.side-right { transform: translate(0, -50%); }
+ 
+  /* Tiny tail pointing toward the figure */
+  .info-card::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    background: #F8F5EE;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-50%) rotate(-45deg);
+  }
+  .info-card.side-right::after { left: -6px; }
+  .info-card.side-left::after  { right: -6px; transform: translateY(-50%) rotate(135deg); }
+ 
+  .info-card-handle {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+ 
+  .info-card-track {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+ 
+  .info-card-track::before {
+    content: "♪ ";
+    color: #FF2D8B;
+    font-style: normal;
+    font-weight: 700;
+  }
+ 
+  .info-card-btn {
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--bg);
+    cursor: pointer;
+  }
+  .info-card-btn:hover { opacity: 0.92; }
+  .info-card-btn.is-active {
+    background: var(--bg);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+ 
+  /* Hide the regular handle label when the info card is showing */
+  .stage-label.is-hidden { opacity: 0; transition: opacity 0.2s; }
+ 
  
   /* Modal — view person + comment */
   .nearyou-modal-backdrop {
@@ -314,10 +491,7 @@
     justify-content: center;
     padding: 20px;
   }
- 
-  .nearyou-modal-backdrop.is-open {
-    display: flex;
-  }
+  .nearyou-modal-backdrop.is-open { display: flex; }
  
   .nearyou-modal {
     width: 100%;
@@ -330,137 +504,54 @@
     transform: rotate(-0.3deg);
   }
  
-  .nearyou-modal-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
- 
-  .nearyou-modal-figure {
-    width: 48px;
-    height: 60px;
-    flex-shrink: 0;
-  }
+  .nearyou-modal-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .nearyou-modal-figure { width: 48px; height: 60px; flex-shrink: 0; }
   .nearyou-modal-figure svg { width: 100%; height: 100%; display: block; }
- 
-  .nearyou-modal-name {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.2;
-  }
- 
-  .nearyou-modal-handle {
-    font-size: 11px;
-    color: var(--text-mid);
-    margin-top: 2px;
-  }
+  .nearyou-modal-name { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
+  .nearyou-modal-handle { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
  
   .nearyou-modal-listening {
-    border: 1px dashed var(--border);
-    background: var(--surface);
-    border-radius: 9px 7px 11px 6px;
-    padding: 10px 12px;
-    margin-bottom: 14px;
+    border: 1px dashed var(--border); background: var(--surface);
+    border-radius: 9px 7px 11px 6px; padding: 10px 12px; margin-bottom: 14px;
   }
- 
   .nearyou-modal-listening-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 4px;
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
   }
- 
   .nearyou-modal-listening-track {
-    font-family: 'Lora', serif;
-    font-style: italic;
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.4;
+    font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--text); line-height: 1.4;
   }
  
   .nearyou-modal-comments {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--bg);
-    max-height: 130px;
-    overflow-y: auto;
-    padding: 8px 10px;
-    margin-bottom: 10px;
-    display: grid;
-    gap: 6px;
-    min-height: 40px;
+    border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
+    max-height: 130px; overflow-y: auto; padding: 8px 10px;
+    margin-bottom: 10px; display: grid; gap: 6px; min-height: 40px;
   }
- 
   .nearyou-modal-comments:empty::before {
     content: "No comments yet — be the first to say hi.";
-    font-size: 11px;
-    color: var(--text-dim);
-    font-style: italic;
+    font-size: 11px; color: var(--text-dim); font-style: italic;
   }
+  .nearyou-comment { font-size: 11px; color: var(--text-mid); line-height: 1.4; }
+  .nearyou-comment strong { color: var(--accent); font-weight: 700; }
  
-  .nearyou-comment {
-    font-size: 11px;
-    color: var(--text-mid);
-    line-height: 1.4;
-  }
- 
-  .nearyou-comment strong {
-    color: var(--accent);
-    font-weight: 700;
-  }
- 
-  .nearyou-comment-input-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
- 
+  .nearyou-comment-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
   .nearyou-comment-input-row input {
-    flex: 1;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 12px;
-    outline: none;
-    background: var(--bg);
+    flex: 1; border: 1px solid var(--border); border-radius: 999px;
+    padding: 8px 12px; font-size: 12px; outline: none; background: var(--bg);
   }
- 
-  .nearyou-comment-input-row input:focus {
-    border-color: var(--accent);
-  }
- 
+  .nearyou-comment-input-row input:focus { border-color: var(--accent); }
   .nearyou-comment-input-row button {
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: var(--accent);
-    color: var(--bg);
+    border-radius: 999px; padding: 8px 12px; font-size: 10px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; background: var(--accent); color: var(--bg);
   }
  
   .nearyou-modal-close {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 9px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-mid);
-    background: transparent;
-    cursor: pointer;
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 9px; font-size: 11px; font-weight: 600; color: var(--text-mid);
+    background: transparent; cursor: pointer;
   }
+  .nearyou-modal-close:hover { border-color: var(--accent); color: var(--text); }
  
-  .nearyou-modal-close:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
-
   /* =====================
      TOP HEADER
   ===================== */
@@ -1763,7 +1854,8 @@
   .splash-screen {
     position: fixed;
     inset: 0;
-    z-index: 10000;
+    /* Above modals / profile edit (10040–10050) so taps always hit the splash first */
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1771,13 +1863,17 @@
     padding: 24px;
     background: var(--bg);
     cursor: pointer;
+    touch-action: manipulation;
+    pointer-events: auto;
     transition: opacity 0.45s ease, visibility 0.45s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html.splash-dismissed .splash-screen {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+    pointer-events: none !important;
+    display: none !important;
   }
 
   .splash-inner {
@@ -1834,9 +1930,40 @@
   <div class="splash-inner">
     <h1 class="splash-title">HEAR <span class="splash-pink">ME OUT</span></h1>
     <p class="splash-tagline">no algorithm. just people.</p>
-    <p class="splash-hint">Click to enter</p>
+    <p class="splash-hint">Tap or click to enter</p>
   </div>
 </div>
+<script>
+(function () {
+  var splash = document.getElementById('splash');
+  if (!splash) return;
+  var done = false;
+  var autoTimer = setTimeout(function () {
+    dismissSplashEarly();
+  }, 3200);
+  function dismissSplashEarly() {
+    if (done) return;
+    done = true;
+    clearTimeout(autoTimer);
+    document.documentElement.classList.add('splash-dismissed');
+    // Remove the overlay from the document so it cannot keep intercepting clicks
+    // (invisible fixed layers at z-index 99999 still block the UI in some browsers).
+    var s = document.getElementById('splash');
+    if (s) {
+      s.setAttribute('aria-hidden', 'true');
+      s.remove();
+    }
+  }
+  splash.addEventListener('pointerdown', dismissSplashEarly, { passive: true });
+  splash.addEventListener('click', dismissSplashEarly);
+  splash.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      dismissSplashEarly();
+    }
+  });
+})();
+</script>
 
 <!-- =====================
      HEADER
@@ -2397,8 +2524,14 @@
     <div class="stage-shape s3"></div>
     <div class="stage-shape s4"></div>
     <div class="stage-shape s5"></div>
+    <svg class="stage-link-svg" id="stage-link-svg" preserveAspectRatio="none"></svg>
     <div class="stage-hint" id="stage-hint">move your mouse to walk · get close to say hi</div>
-    <!-- figures + labels are injected by JS -->
+    <div class="stage-emotes">
+      <button class="emote-btn" type="button" data-emote="wave"   onclick="setMyEmote('wave')"   title="Wave">👋</button>
+      <button class="emote-btn" type="button" data-emote="dance"  onclick="setMyEmote('dance')"  title="Dance">💃</button>
+      <button class="emote-btn" type="button" data-emote="sit"    onclick="setMyEmote('sit')"    title="Sit">🪑</button>
+    </div>
+    <!-- benches, figures, labels, notes, bubbles injected by JS -->
   </div>
 </div>
  
@@ -2577,24 +2710,7 @@
 ===================== -->
 <script>
 
-  // ----------------------------
-  // SPLASH SCREEN
-  // ----------------------------
-  function dismissSplash() {
-    document.documentElement.classList.add('splash-dismissed');
-  }
-
-  (function initSplash() {
-    const splash = document.getElementById('splash');
-    if (!splash) return;
-    splash.addEventListener('click', dismissSplash);
-    splash.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        dismissSplash();
-      }
-    });
-  })();
+  // Splash dismiss runs in small inline script after #splash (survives main script errors; higher z-index).
 
   // ----------------------------
   // NOTIFICATIONS TAB
@@ -3004,9 +3120,10 @@
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   }
-// ----------------------------
-  // NEAR YOU — interactive third space (v2)
-  // mouse-follow movement · stick figure icons · full-page stage
+ // ----------------------------
+  // NEAR YOU — interactive third space (v3)
+  // music notes · run/walk · bumping · emotes · speech bubbles
+  // listen-together · benches
   // ----------------------------
  
   var nearYouPeople = [
@@ -3019,13 +3136,29 @@
     { id: 'p7', handle: '@orange.sundays',  name: 'Orange',     color: '#e63946', listening: 'Gold — Alabaster dePlume',          x: 48, y: 14, friend: false, ai: true  }
   ];
  
-  var NEARBY_THRESHOLD = 11;
+  // Benches scattered around — fixed positions (% based)
+  var nearYouBenches = [
+    { x: 18, y: 42 },
+    { x: 82, y: 38 },
+    { x: 50, y: 80 }
+  ];
+ 
+  var NEARBY_THRESHOLD     = 11;
+  var BUMP_DISTANCE        = 5;
+  var ON_BENCH_DISTANCE    = 6;
+ 
   var nearYouComments = {};
   var myPos = { x: 50, y: 50 };
   var lastMyPos = { x: 50, y: 50 };
   var myFacingLeft = false;
   var walkTimeout = null;
   var stageRect = null;
+  var lastMoveTime = 0;
+  var moveSpeed = 0;
+  var myEmote = null;        // 'wave' | 'dance' | 'sit' | null
+  var myEmoteTimer = null;
+  var listeningWith = null;  // person id we're listening with
+  var bumpedIds = {};        // throttle bump events
  
   function readSession() {
     try {
@@ -3060,10 +3193,30 @@
       '</svg>';
   }
  
+  function benchSVG() {
+    return '' +
+      '<svg viewBox="0 0 70 22" xmlns="http://www.w3.org/2000/svg">' +
+        '<rect x="2" y="6" width="66" height="6" rx="2" fill="#8b6f47" stroke="#4A443A" stroke-width="1"/>' +
+        '<line x1="8"  y1="12" x2="8"  y2="20" stroke="#4A443A" stroke-width="2" stroke-linecap="round"/>' +
+        '<line x1="62" y1="12" x2="62" y2="20" stroke="#4A443A" stroke-width="2" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+ 
   function buildNearYouStage() {
     var stage = document.getElementById('nearyou-stage');
     if (!stage) return;
-    stage.querySelectorAll('.stage-figure, .stage-label').forEach(function (el) { el.remove(); });
+    stage.querySelectorAll('.stage-figure, .stage-label, .stage-bench, .speech-bubble, .listen-with-btn').forEach(function (el) { el.remove(); });
+ 
+    // Benches
+    nearYouBenches.forEach(function (b, i) {
+      var bench = document.createElement('div');
+      bench.className = 'stage-bench';
+      bench.dataset.benchId = i;
+      bench.innerHTML = benchSVG();
+      bench.style.left = b.x + '%';
+      bench.style.top = b.y + '%';
+      stage.appendChild(bench);
+    });
  
     // ME
     var me = document.createElement('div');
@@ -3103,11 +3256,23 @@
       lbl.style.left = p.x + '%';
       lbl.style.top = p.y + '%';
       stage.appendChild(lbl);
-    });
+ 
+    // Single info card — shows nearby person's handle, track, listen-with btn
+    var card = document.createElement('div');
+    card.className = 'info-card';
+    card.id = 'info-card';
+    card.innerHTML =
+      '<div class="info-card-handle" id="info-card-handle">@—</div>' +
+      '<div class="info-card-track"  id="info-card-track">—</div>' +
+      '<button type="button" class="info-card-btn" id="info-card-btn">+ Listen with</button>';
+    stage.appendChild(card);
+    card.querySelector('#info-card-btn').addEventListener('click', toggleListenWith);
  
     cacheStageRect();
     updateNearbyHighlights();
     startAmbientWander();
+    startMusicNoteEmitter();
+    startAmbientEmotes();
     bindStagePointer();
   }
  
@@ -3125,10 +3290,7 @@
     stage.addEventListener('mousemove', handleStagePointer);
     stage.addEventListener('touchmove', function (e) {
       if (!e.touches || !e.touches[0]) return;
-      handleStagePointer({
-        clientX: e.touches[0].clientX,
-        clientY: e.touches[0].clientY
-      });
+      handleStagePointer({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
       e.preventDefault();
     }, { passive: false });
  
@@ -3145,7 +3307,15 @@
     var xPct = Math.max(4, Math.min(96, (px / stageRect.width) * 100));
     var yPct = Math.max(8, Math.min(96, (py / stageRect.height) * 100));
  
+    // Compute speed (% of stage per ms)
+    var now = performance.now();
+    var dt = Math.max(1, now - lastMoveTime);
     var dx = xPct - lastMyPos.x;
+    var dy = yPct - lastMyPos.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    moveSpeed = dist / dt;
+    lastMoveTime = now;
+ 
     if (Math.abs(dx) > 0.4) myFacingLeft = dx < 0;
  
     lastMyPos.x = myPos.x;
@@ -3153,13 +3323,20 @@
     myPos.x = xPct;
     myPos.y = yPct;
  
+    // If user is moving, cancel any active sit/dance/wave emote
+    if (dist > 0.3 && myEmote) clearMyEmote();
+ 
     var me = document.getElementById('me-figure');
     var lbl = document.getElementById('me-label');
     if (me) {
       me.style.left = xPct + '%';
       me.style.top = yPct + '%';
       me.classList.toggle('faces-left', myFacingLeft);
-      me.classList.add('is-walking');
+ 
+      // One walking speed, all the time
+me.classList.remove('is-running', 'is-tiptoe');
+if (dist > 0.05) me.classList.add('is-walking');
+else             me.classList.remove('is-walking');
     }
     if (lbl) {
       lbl.style.left = xPct + '%';
@@ -3168,29 +3345,59 @@
  
     if (walkTimeout) clearTimeout(walkTimeout);
     walkTimeout = setTimeout(function () {
-      if (me) me.classList.remove('is-walking');
-    }, 120);
+      if (me) me.classList.remove('is-walking', 'is-running', 'is-tiptoe');
+    }, 140);
  
     updateNearbyHighlights();
+    checkBenchSit();
+    checkBumps();
+    updateListenWithBtn();
+    updateLinkLine();
  
     var hint = document.getElementById('stage-hint');
     if (hint) hint.classList.add('is-faded');
   }
  
-  function distanceTo(p) {
-    var dx = p.x - myPos.x;
-    var dy = p.y - myPos.y;
+  function distancePtPt(ax, ay, bx, by) {
+    var dx = ax - bx;
+    var dy = ay - by;
     return Math.sqrt(dx * dx + dy * dy);
+  }
+  function distanceTo(p) { return distancePtPt(p.x, p.y, myPos.x, myPos.y); }
+ 
+  function nearestPersonDistance() {
+    var min = Infinity;
+    nearYouPeople.forEach(function (p) {
+      var d = distanceTo(p);
+      if (d < min) min = d;
+    });
+    return min;
+  }
+ 
+  function nearestNearbyPerson() {
+    var min = Infinity, hit = null;
+    nearYouPeople.forEach(function (p) {
+      var d = distanceTo(p);
+      if (d <= NEARBY_THRESHOLD && d < min) { min = d; hit = p; }
+    });
+    return hit;
   }
  
   function updateNearbyHighlights() {
-    nearYouPeople.forEach(function (p) {
-      var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
-      if (!fig) return;
-      if (distanceTo(p) <= NEARBY_THRESHOLD) fig.classList.add('is-near');
-      else fig.classList.remove('is-near');
-    });
-  }
+      var nearestId = null;
+      nearYouPeople.forEach(function (p) {
+        var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
+        var lbl = document.querySelector('.stage-label[data-label-for="' + p.id + '"]');
+        var near = distanceTo(p) <= NEARBY_THRESHOLD;
+        if (fig) fig.classList.toggle('is-near', near);
+        if (lbl) lbl.classList.remove('is-hidden'); // reset; we re-hide the nearest one below
+      });
+      var nearest = nearestNearbyPerson();
+      if (nearest) {
+        var nlbl = document.querySelector('.stage-label[data-label-for="' + nearest.id + '"]');
+        if (nlbl) nlbl.classList.add('is-hidden');
+      }
+    }
  
   function tryInteract(personId) {
     var p = nearYouPeople.find(function (x) { return x.id === personId; });
@@ -3202,6 +3409,225 @@
     openNearYouModal(p);
   }
  
+  // ---- BUMPING ----------------------------------------------
+  function checkBumps() {
+    nearYouPeople.forEach(function (p) {
+      var d = distanceTo(p);
+      if (d <= BUMP_DISTANCE) {
+        if (bumpedIds[p.id]) return;
+        bumpedIds[p.id] = true;
+        bumpFigure(p);
+      } else if (d > BUMP_DISTANCE + 2) {
+        bumpedIds[p.id] = false;
+      }
+    });
+  }
+ 
+  function bumpFigure(p) {
+    var theirFig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
+    var myFig = document.getElementById('me-figure');
+    if (theirFig) {
+      theirFig.classList.add('is-bumped');
+      setTimeout(function () { theirFig.classList.remove('is-bumped'); }, 420);
+    }
+    if (myFig) {
+      myFig.classList.add('is-bumped');
+      setTimeout(function () { myFig.classList.remove('is-bumped'); }, 420);
+    }
+    spawnBumpMark(p.x, p.y);
+  }
+ 
+  function spawnBumpMark(x, y) {
+    var stage = document.getElementById('nearyou-stage');
+    if (!stage) return;
+    var mark = document.createElement('div');
+    mark.className = 'bump-mark';
+    mark.textContent = '!';
+    mark.style.left = x + '%';
+    mark.style.top = y + '%';
+    stage.appendChild(mark);
+    setTimeout(function () { mark.remove(); }, 650);
+  }
+ 
+  // ---- BENCH SITTING ----------------------------------------
+  function checkBenchSit() {
+    var me = document.getElementById('me-figure');
+    if (!me) return;
+    if (myEmote && myEmote !== 'sit') return; // user-chosen emote takes priority
+ 
+    var onBench = nearYouBenches.some(function (b) {
+      return distancePtPt(b.x, b.y, myPos.x, myPos.y) <= ON_BENCH_DISTANCE;
+    });
+ 
+    if (onBench) {
+      me.classList.add('is-sitting');
+    } else if (myEmote !== 'sit') {
+      me.classList.remove('is-sitting');
+    }
+  }
+ 
+  // ---- EMOTES -----------------------------------------------
+  function setMyEmote(name) {
+    var me = document.getElementById('me-figure');
+    if (!me) return;
+    // Toggle off if clicking the same one
+    if (myEmote === name) { clearMyEmote(); return; }
+    clearMyEmote();
+    myEmote = name;
+    me.classList.add('is-' + name + (name === 'sit' ? 'ting' : (name === 'dance' ? 'ing' : 'ing')));
+    // Fix the class names: wave→is-waving, dance→is-dancing, sit→is-sitting
+    me.classList.remove('is-' + name + (name === 'sit' ? 'ting' : (name === 'dance' ? 'ing' : 'ing')));
+    if (name === 'wave')  me.classList.add('is-waving');
+    if (name === 'dance') me.classList.add('is-dancing');
+    if (name === 'sit')   me.classList.add('is-sitting');
+    syncEmoteButtons();
+ 
+    // Auto-clear wave/dance after a few seconds; sit holds until you walk
+    if (name !== 'sit') {
+      myEmoteTimer = setTimeout(clearMyEmote, name === 'wave' ? 2200 : 4000);
+    }
+  }
+ 
+  function clearMyEmote() {
+    var me = document.getElementById('me-figure');
+    if (me) me.classList.remove('is-waving', 'is-dancing', 'is-sitting');
+    myEmote = null;
+    if (myEmoteTimer) { clearTimeout(myEmoteTimer); myEmoteTimer = null; }
+    syncEmoteButtons();
+  }
+ 
+  function syncEmoteButtons() {
+    document.querySelectorAll('.emote-btn').forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.emote === myEmote);
+    });
+  }
+ 
+  // AI characters do random emotes occasionally
+  function startAmbientEmotes() {
+    setInterval(function () {
+      var page = document.getElementById('page-nearyou');
+      if (!page || !page.classList.contains('active')) return;
+      var ai = nearYouPeople.filter(function (p) { return p.ai; });
+      if (!ai.length) return;
+      var p = ai[Math.floor(Math.random() * ai.length)];
+      var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
+      if (!fig) return;
+      var emotes = ['is-waving', 'is-dancing'];
+      var pick = emotes[Math.floor(Math.random() * emotes.length)];
+      fig.classList.add(pick);
+      setTimeout(function () { fig.classList.remove(pick); }, 2500);
+    }, 5000);
+  }
+ 
+  function updateListenWithBtn() {
+      var card = document.getElementById('info-card');
+      if (!card) return;
+      var p = nearestNearbyPerson();
+      if (!p) {
+        card.classList.remove('is-visible');
+        if (listeningWith) {
+          listeningWith = null;
+          updateLinkLine();
+        }
+        return;
+      }
+ 
+      // Position card to LEFT or RIGHT of the figure based on screen space
+      var FIG_OFFSET = 6;  // % gap between figure and card
+      var sideRight = p.x < 60; // if person is on the left half, card goes right
+      var cx = sideRight ? (p.x + FIG_OFFSET) : (p.x - FIG_OFFSET);
+      var cy = p.y - 6; // raise card slightly so it sits next to figure's chest
+ 
+      card.classList.remove('side-left', 'side-right');
+      card.classList.add(sideRight ? 'side-right' : 'side-left');
+      card.style.left = cx + '%';
+      card.style.top = cy + '%';
+      card.classList.add('is-visible');
+      card.dataset.targetId = p.id;
+ 
+      var hEl = document.getElementById('info-card-handle');
+      var tEl = document.getElementById('info-card-track');
+      var bEl = document.getElementById('info-card-btn');
+      if (hEl) hEl.textContent = p.handle;
+      if (tEl) tEl.textContent = p.listening;
+      if (bEl) {
+        if (listeningWith === p.id) {
+          bEl.classList.add('is-active');
+          bEl.textContent = '◆ Listening with ' + p.handle;
+        } else {
+          bEl.classList.remove('is-active');
+          bEl.textContent = '+ Listen with ' + p.handle;
+        }
+      }
+    }
+ 
+    function toggleListenWith(e) {
+      e.stopPropagation();
+      var card = document.getElementById('info-card');
+      if (!card) return;
+      var pid = card.dataset.targetId;
+      if (!pid) return;
+      if (listeningWith === pid) {
+        listeningWith = null;
+        if (typeof showToast === 'function') showToast('Stopped listening together');
+      } else {
+        listeningWith = pid;
+        var p = nearYouPeople.find(function (x) { return x.id === pid; });
+        if (p && typeof showToast === 'function') showToast('Now listening with ' + p.handle + ' ✦');
+      }
+      updateListenWithBtn();
+      updateLinkLine();
+    }
+ 
+  function updateLinkLine() {
+    var svg = document.getElementById('stage-link-svg');
+    if (!svg) return;
+    svg.innerHTML = '';
+    if (!listeningWith) return;
+    var p = nearYouPeople.find(function (x) { return x.id === listeningWith; });
+    if (!p) return;
+    // Use viewBox-less SVG with absolute units; values are %.
+    svg.setAttribute('viewBox', '0 0 100 100');
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', myPos.x);
+    line.setAttribute('y1', myPos.y - 4); // raise slightly toward chest
+    line.setAttribute('x2', p.x);
+    line.setAttribute('y2', p.y - 4);
+    svg.appendChild(line);
+  }
+ 
+  // ---- MUSIC NOTES ------------------------------------------
+  var noteSymbols = ['♪', '♫', '♩', '♬'];
+  function spawnMusicNote(person) {
+    var stage = document.getElementById('nearyou-stage');
+    if (!stage) return;
+    var n = document.createElement('div');
+    n.className = 'music-note';
+    n.textContent = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
+    n.style.color = person ? person.color : nearYouMyColor();
+    var sx = person ? person.x : myPos.x;
+    var sy = person ? person.y : myPos.y;
+    n.style.left = sx + '%';
+    n.style.top = sy + '%';
+    // Slight random horizontal drift via animation delay variance
+    n.style.animationDuration = (2.4 + Math.random() * 1.2) + 's';
+    stage.appendChild(n);
+    setTimeout(function () { n.remove(); }, 4000);
+  }
+ 
+  function startMusicNoteEmitter() {
+    setInterval(function () {
+      var page = document.getElementById('page-nearyou');
+      if (!page || !page.classList.contains('active')) return;
+      // ME (only if currently listening with someone OR randomly to feel alive)
+      if (Math.random() < 0.45) spawnMusicNote(null);
+      nearYouPeople.forEach(function (p) {
+        if (Math.random() < 0.40) spawnMusicNote(p);
+      });
+    }, 1400);
+  }
+ 
+  // ---- MODAL ------------------------------------------------
   function openNearYouModal(p) {
     var bd = document.getElementById('nearyouModalBackdrop');
     if (!bd) return;
@@ -3258,6 +3684,7 @@
     if (typeof showToast === 'function') showToast('Said hi ✦');
   }
  
+  // ---- AMBIENT WANDER (AI characters) -----------------------
   var nearYouWanderTimer = null;
   function startAmbientWander() {
     if (nearYouWanderTimer) clearInterval(nearYouWanderTimer);
@@ -3267,10 +3694,8 @@
       nearYouPeople.forEach(function (p) {
         if (!p.ai) return;
         var oldX = p.x;
-        var nx = p.x + (Math.random() * 6 - 3);
-        var ny = p.y + (Math.random() * 6 - 3);
-        p.x = Math.max(6, Math.min(94, nx));
-        p.y = Math.max(10, Math.min(94, ny));
+        p.x = Math.max(6,  Math.min(94, p.x + (Math.random() * 6 - 3)));
+        p.y = Math.max(10, Math.min(94, p.y + (Math.random() * 6 - 3)));
         var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
         var lbl = document.querySelector('.stage-label[data-label-for="' + p.id + '"]');
         if (fig) {
@@ -3286,6 +3711,8 @@
         }
       });
       updateNearbyHighlights();
+      updateListenWithBtn();
+      updateLinkLine();
     }, 2800);
   }
  
@@ -3294,7 +3721,6 @@
     buildNearYouStage();
   }
  
-  // Re-cache the stage's screen rect whenever the user opens this page
   (function watchPageSwitch() {
     var origShow = window.showPage;
     if (typeof origShow !== 'function') return;
