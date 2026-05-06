@@ -1387,6 +1387,147 @@
     flex-shrink: 0;
   }
 
+  .community-page-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 36%);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .community-page-main {
+    min-width: 0;
+  }
+
+  .community-page-stage-column {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+  }
+
+  .community-stage-title {
+    margin-bottom: 8px;
+  }
+
+  .community-sim-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: none;
+    background:
+      radial-gradient(circle at 22% 28%, rgba(255, 45, 139, 0.10), transparent 38%),
+      radial-gradient(circle at 78% 70%, rgba(47, 54, 69, 0.12), transparent 42%),
+      radial-gradient(circle at 50% 92%, rgba(196, 92, 38, 0.07), transparent 45%),
+      linear-gradient(160deg, #F8F5EE 0%, #EFEAE1 100%);
+  }
+
+  .community-sim-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background: repeating-linear-gradient(24deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 7px);
+  }
+
+  /* =====================
+     COMMUNITY ROOM ENVIRONMENTS
+     Each community has its own themed background scene.
+     Environment elements sit at z-index 0; figures are z-index 3+.
+  ===================== */
+
+  /* Hide all environment layers by default; the active room class shows them */
+  .room-env { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .community-sim-stage.room-brooklyn  .room-env.env-brooklyn  { display: block; }
+  .community-sim-stage.room-jazz      .room-env.env-jazz      { display: block; }
+  .community-sim-stage.room-latenight .room-env.env-latenight { display: block; }
+  .community-sim-stage.room-vinyl     .room-env.env-vinyl     { display: block; }
+
+  /* Override the default stage background per theme so each room feels distinct */
+  .community-sim-stage.room-brooklyn {
+    background: linear-gradient(180deg, #fbd5b8 0%, #f7b48f 60%, #e89373 100%);
+  }
+  .community-sim-stage.room-jazz {
+    background: radial-gradient(circle at 50% 100%, #3b2952 0%, #1d1530 100%);
+  }
+  .community-sim-stage.room-latenight {
+    background: linear-gradient(180deg, #1c2447 0%, #0f1226 100%);
+  }
+  .community-sim-stage.room-vinyl {
+    background: linear-gradient(180deg, #f1e2c4 0%, #d9b986 100%);
+  }
+
+  /* Make figure outlines/text readable on dark rooms */
+  .community-sim-stage.room-jazz .stage-figure svg circle,
+  .community-sim-stage.room-latenight .stage-figure svg circle {
+    stroke: #FAFAF7;
+  }
+  .community-sim-stage.room-jazz .stage-figure svg line,
+  .community-sim-stage.room-latenight .stage-figure svg line {
+    stroke: #FAFAF7;
+  }
+  .community-sim-stage.room-jazz .stage-label,
+  .community-sim-stage.room-latenight .stage-label {
+    background: rgba(20, 20, 30, 0.85);
+    color: #FAFAF7;
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .room-env svg { width: 100%; height: 100%; display: block; }
+
+  .community-sim-hint {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: rgba(248, 245, 238, 0.88);
+    padding: 5px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    pointer-events: none;
+    z-index: 7;
+    white-space: nowrap;
+  }
+
+  .community-sim-stage .stage-figure {
+    transform: translate(-50%, -100%) scale(0.76);
+    transform-origin: center bottom;
+  }
+
+  .community-sim-stage .stage-label {
+    transform: translate(-50%, -100%) scale(0.82);
+    transform-origin: center bottom;
+    font-size: 8px;
+    margin-top: -10px;
+  }
+
+  .community-sim-stage .info-card {
+    width: min(170px, 56%);
+    padding: 8px 10px;
+    z-index: 9;
+  }
+
+  .community-sim-stage .info-card-handle { font-size: 11px; }
+  .community-sim-stage .info-card-track { font-size: 10px; }
+  .community-sim-stage .info-card-btn { font-size: 8px; padding: 5px 8px; }
+
+  @media (max-width: 960px) {
+    .community-page-layout {
+      grid-template-columns: 1fr;
+    }
+    .community-page-stage-column {
+      position: static;
+      order: -1;
+    }
+  }
+
   .community-users-mini {
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1738,7 +1879,7 @@
   .profile-handle { font-size: 13px; color: var(--text-mid); margin-top: 2px; }
   .profile-current {
     margin-top: 6px;
-    font-size: 15px;
+    font-size: 12px;
     color: var(--text-mid);
   }
   .profile-current strong {
@@ -2569,6 +2710,9 @@
 ===================== -->
 <div class="page" id="page-communities">
 
+  <div class="community-page-layout">
+  <div class="community-page-main">
+
   <div class="section-label">Communities I'm a member in</div>
   <div class="community-member-tabs">
     <button class="community-tab-btn active" type="button" onclick="switchCommunity(this, 'Brooklyn Scene')">Brooklyn Scene</button>
@@ -2639,6 +2783,175 @@
   <div class="community-recommend">
     <input id="community-friend-input" type="text" placeholder="Enter friend handle (e.g. @alex.listens)">
     <button type="button" onclick="recommendCommunity()">Recommend</button>
+  </div>
+
+  </div>
+
+  <aside class="community-page-stage-column">
+    <div class="section-label community-stage-title">Active in your community</div>
+    <div class="community-sim-stage" id="community-sim-stage">
+      <!-- Brooklyn Scene — rooftop at golden hour -->
+      <div class="room-env env-brooklyn">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMax slice">
+          <!-- string lights drooping across the top -->
+          <path d="M0,18 Q50,32 100,22 T200,30" stroke="#3a2a20" stroke-width="0.6" fill="none" opacity="0.55"/>
+          <circle cx="22" cy="24" r="2" fill="#fff1a8"/>
+          <circle cx="55" cy="29" r="2" fill="#fff1a8"/>
+          <circle cx="92" cy="24" r="2" fill="#fff1a8"/>
+          <circle cx="135" cy="29" r="2" fill="#fff1a8"/>
+          <circle cx="172" cy="30" r="2" fill="#fff1a8"/>
+          <!-- skyline silhouette -->
+          <g fill="#1f1410">
+            <rect x="0"   y="155" width="22" height="45"/>
+            <rect x="22"  y="140" width="14" height="60"/>
+            <rect x="36"  y="148" width="10" height="52"/>
+            <rect x="46"  y="132" width="20" height="68"/>
+            <rect x="50"  y="124" width="8" height="8"/>
+            <polygon points="49,124 59,124 54,118"/>
+            <rect x="66"  y="146" width="14" height="54"/>
+            <rect x="80"  y="138" width="22" height="62"/>
+            <rect x="102" y="146" width="14" height="54"/>
+            <rect x="116" y="130" width="18" height="70"/>
+            <rect x="134" y="148" width="14" height="52"/>
+            <rect x="148" y="140" width="20" height="60"/>
+            <rect x="153" y="132" width="8" height="8"/>
+            <polygon points="152,132 162,132 157,126"/>
+            <rect x="168" y="146" width="12" height="54"/>
+            <rect x="180" y="138" width="20" height="62"/>
+          </g>
+          <!-- warm window dots -->
+          <g fill="#ffd187" opacity="0.85">
+            <rect x="6" y="170" width="2" height="2"/>
+            <rect x="28" y="158" width="2" height="2"/>
+            <rect x="74" y="168" width="2" height="2"/>
+            <rect x="86" y="156" width="2" height="2"/>
+            <rect x="120" y="148" width="2" height="2"/>
+            <rect x="156" y="166" width="2" height="2"/>
+            <rect x="190" y="156" width="2" height="2"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- NYC Jazz — dim basement club -->
+      <div class="room-env env-jazz">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="jazz-glow1" cx="0.3" cy="0" r="0.7">
+              <stop offset="0%" stop-color="#ffba6e" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#ffba6e" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="jazz-glow2" cx="0.7" cy="0" r="0.65">
+              <stop offset="0%" stop-color="#ff7ab3" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#ff7ab3" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="200" fill="url(#jazz-glow1)"/>
+          <rect width="200" height="200" fill="url(#jazz-glow2)"/>
+          <!-- back wall stage -->
+          <rect x="148" y="120" width="48" height="60" fill="#0e0820"/>
+          <rect x="146" y="160" width="52" height="8" fill="#2a1f3d"/>
+          <!-- mic stand -->
+          <line x1="172" y1="160" x2="172" y2="128" stroke="#888" stroke-width="1.4"/>
+          <circle cx="172" cy="125" r="2.5" fill="#888"/>
+          <!-- candles -->
+          <g>
+            <rect x="36" y="168" width="22" height="3" fill="#3b2952"/>
+            <rect x="44" y="158" width="6" height="10" fill="#2a1f3d"/>
+            <ellipse cx="47" cy="155" rx="1.4" ry="2.4" fill="#ffd187"/>
+            <ellipse cx="47" cy="154" rx="0.8" ry="1.4" fill="#ff7a2a" opacity="0.7"/>
+          </g>
+          <g>
+            <rect x="80" y="174" width="22" height="3" fill="#3b2952"/>
+            <rect x="88" y="164" width="6" height="10" fill="#2a1f3d"/>
+            <ellipse cx="91" cy="161" rx="1.4" ry="2.4" fill="#ffd187"/>
+            <ellipse cx="91" cy="160" rx="0.8" ry="1.4" fill="#ff7a2a" opacity="0.7"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Late Night Listeners — bedroom at 2am -->
+      <div class="room-env env-latenight">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="lamp-glow" cx="0.15" cy="0.85" r="0.5">
+              <stop offset="0%" stop-color="#ffd187" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#ffd187" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="200" fill="url(#lamp-glow)"/>
+          <!-- window upper right -->
+          <g>
+            <rect x="120" y="14" width="62" height="58" fill="#0a1130" stroke="#454b75" stroke-width="1"/>
+            <line x1="151" y1="14" x2="151" y2="72" stroke="#454b75" stroke-width="0.7"/>
+            <line x1="120" y1="43" x2="182" y2="43" stroke="#454b75" stroke-width="0.7"/>
+            <!-- moon -->
+            <circle cx="138" cy="32" r="9" fill="#fbf2c8"/>
+            <circle cx="142" cy="29" r="7" fill="#0a1130"/>
+            <!-- stars -->
+            <g fill="#fbf2c8">
+              <circle cx="166" cy="22" r="0.9"/>
+              <circle cx="172" cy="32" r="0.7"/>
+              <circle cx="160" cy="40" r="0.7"/>
+              <circle cx="170" cy="55" r="0.9"/>
+              <circle cx="128" cy="58" r="0.7"/>
+            </g>
+          </g>
+          <!-- lamp lower left -->
+          <g>
+            <polygon points="14,168 36,168 32,148 18,148" fill="#a87b3a"/>
+            <rect x="22" y="168" width="6" height="20" fill="#5a4527"/>
+            <rect x="16" y="186" width="18" height="3" fill="#5a4527"/>
+          </g>
+          <!-- dreamy floating shapes -->
+          <ellipse cx="78" cy="100" rx="32" ry="14" fill="#FF2D8B" opacity="0.18"/>
+          <ellipse cx="50" cy="130" rx="26" ry="10" fill="#6b4f8e" opacity="0.22"/>
+          <ellipse cx="160" cy="130" rx="22" ry="8" fill="#457b9d" opacity="0.20"/>
+        </svg>
+      </div>
+
+      <!-- Vinyl Only — record shop -->
+      <div class="room-env env-vinyl">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <!-- wood floor lines -->
+          <g stroke="#a07a3e" stroke-width="0.4" opacity="0.5">
+            <line x1="0" y1="120" x2="200" y2="120"/>
+            <line x1="0" y1="140" x2="200" y2="140"/>
+            <line x1="0" y1="160" x2="200" y2="160"/>
+            <line x1="0" y1="180" x2="200" y2="180"/>
+          </g>
+          <!-- wall of records -->
+          <g>
+            <rect x="6"   y="8" width="20" height="22" fill="#c45c26" transform="rotate(-3 16 19)"/>
+            <rect x="28"  y="6" width="20" height="22" fill="#1d3557" transform="rotate(2 38 17)"/>
+            <rect x="50"  y="8" width="20" height="22" fill="#2d6a4f" transform="rotate(-2 60 19)"/>
+            <rect x="72"  y="7" width="20" height="22" fill="#FF2D8B" transform="rotate(3 82 18)"/>
+            <rect x="94"  y="8" width="20" height="22" fill="#6b4f8e" transform="rotate(-1 104 19)"/>
+            <rect x="116" y="7" width="20" height="22" fill="#bc6c25" transform="rotate(2 126 18)"/>
+            <rect x="138" y="8" width="20" height="22" fill="#e63946" transform="rotate(-3 148 19)"/>
+            <rect x="160" y="6" width="20" height="22" fill="#457b9d" transform="rotate(1 170 17)"/>
+            <rect x="182" y="8" width="14" height="22" fill="#27ae60" transform="rotate(-2 189 19)"/>
+          </g>
+          <!-- turntable lower right -->
+          <g transform="translate(150 150)">
+            <rect x="-22" y="-4" width="44" height="32" rx="2" fill="#2a1d10"/>
+            <circle cx="0" cy="14" r="14" fill="#0a0a0a">
+              <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="6s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="0" cy="14" r="4" fill="#FF2D8B" pointer-events="none"/>
+            <line x1="13" y1="-1" x2="3" y2="11" stroke="#9aa" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="13" cy="-1" r="1.5" fill="#9aa"/>
+          </g>
+          <!-- now spinning sign -->
+          <g transform="translate(108 154) rotate(-4)">
+            <rect x="-22" y="-7" width="46" height="14" fill="#FAFAF7" stroke="#2a1d10" stroke-width="0.6"/>
+            <text x="1" y="3" text-anchor="middle" font-family="Caveat, cursive" font-size="11" fill="#1A1A1A">now spinning</text>
+          </g>
+        </svg>
+      </div>
+      <div class="community-sim-hint">move your mouse to walk · click to chat</div>
+      <svg class="stage-link-svg" id="community-sim-link" preserveAspectRatio="none"></svg>
+    </div>
+  </aside>
   </div>
 
 </div>
@@ -2914,6 +3227,11 @@
     btnEl.classList.add('active');
     // Scroll to top
     window.scrollTo(0, 0);
+    if (pageName === 'communities') {
+      buildCommunitySimStage();
+      bindCommunitySimPointer();
+      setTimeout(cacheCommunitySimRect, 40);
+    }
   }
 
   // ----------------------------
@@ -2952,6 +3270,19 @@
     if (trendingTitle) trendingTitle.textContent = 'Trending in ' + communityName;
     if (discussionTitle) discussionTitle.textContent = communityName + ' Discussion Board';
     if (playlistTitle) playlistTitle.textContent = communityName + ' Curated Playlist';
+    var stage = document.getElementById('community-sim-stage');
+    if (stage) {
+      stage.classList.remove('room-brooklyn', 'room-jazz', 'room-latenight', 'room-vinyl');
+      var roomMap = {
+        'Brooklyn Scene':       'room-brooklyn',
+        'NYC Jazz':             'room-jazz',
+        'Late Night Listeners': 'room-latenight',
+        'Vinyl Only Listeners': 'room-vinyl'
+      };
+      stage.classList.add(roomMap[communityName] || 'room-brooklyn');
+    }
+    buildCommunitySimStage();
+    setTimeout(cacheCommunitySimRect, 0);
   }
 
   // ----------------------------
@@ -3300,6 +3631,24 @@
     { id: 'p13', handle: '@alandrabae2',     name: 'Alandra',    color: '#00bcd4', listening: 'Never Enough — Loren Allred',       x: 70, y: 88, friend: true,  ai: false },
     { id: 'p14', handle: '@jesshg',          name: 'Jess',       color: '#5c4d7a', listening: 'Adore You — Harry Styles',         x: 18, y: 72, friend: true,  ai: false }
   ];
+
+  var communitySimState = {
+    people: [],
+    myPos: { x: 50, y: 56 },
+    lastPos: { x: 50, y: 56 },
+    rect: null,
+    facingLeft: false,
+    walkTimeout: null,
+    wanderTimer: null,
+    linkTo: null
+  };
+
+  var communityRosterHandles = {
+    'Brooklyn Scene': ['@danielc', '@brooklyn.nights', '@rem.ears', '@katiebop', '@jesshg', '@amandap217'],
+    'NYC Jazz': ['@rem.ears', '@soph.listens', '@tellertt', '@alandrabae2', '@emmalauren', '@danielc'],
+    'Late Night Listeners': ['@jesshg', '@quiet.kid', '@violet.hums', '@emmalauren', '@katiebop', '@gracie1569'],
+    'Vinyl Only Listeners': ['@orange.sundays', '@danielc', '@amandap217', '@alandrabae2', '@rem.ears', '@brooklyn.nights']
+  };
  
   // Benches scattered around — fixed positions (% based)
   var nearYouBenches = [
@@ -3356,6 +3705,257 @@
         '<line class="leg-left"  x1="28" y1="44" x2="20" y2="62" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
         '<line class="leg-right" x1="28" y1="44" x2="36" y2="62" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>' +
       '</svg>';
+  }
+
+  function activeCommunityName() {
+    var t = document.querySelector('.community-tab-btn.active');
+    return t ? t.textContent.trim() : 'Brooklyn Scene';
+  }
+
+  function communitySimPeopleFor(name) {
+    var handles = communityRosterHandles[name] || communityRosterHandles['Brooklyn Scene'];
+    var slots = [
+      { x: 20, y: 28 }, { x: 78, y: 30 }, { x: 48, y: 45 },
+      { x: 18, y: 72 }, { x: 80, y: 72 }, { x: 52, y: 78 }
+    ];
+    return handles.map(function (h, i) {
+      var base = nearYouPeople.find(function (p) { return p.handle === h; }) || nearYouPeople[0];
+      return {
+        id: base.id,
+        handle: base.handle,
+        name: base.name,
+        color: base.color,
+        listening: base.listening,
+        x: slots[i].x,
+        y: slots[i].y,
+        ai: true
+      };
+    });
+  }
+
+  function cacheCommunitySimRect() {
+    var st = document.getElementById('community-sim-stage');
+    if (st) communitySimState.rect = st.getBoundingClientRect();
+  }
+
+  function buildCommunitySimStage() {
+    var stage = document.getElementById('community-sim-stage');
+    if (!stage) return;
+
+    if (communitySimState.wanderTimer) clearInterval(communitySimState.wanderTimer);
+    stage.querySelectorAll('.stage-figure, .stage-label, .bump-mark, .music-note, .info-card').forEach(function (el) { el.remove(); });
+    var link = document.getElementById('community-sim-link');
+    if (link) link.innerHTML = '';
+
+    communitySimState.people = communitySimPeopleFor(activeCommunityName());
+    communitySimState.myPos = { x: 50, y: 56 };
+    communitySimState.lastPos = { x: 50, y: 56 };
+    communitySimState.linkTo = null;
+
+    var me = document.createElement('div');
+    me.className = 'stage-figure is-me';
+    me.id = 'community-sim-me';
+    me.innerHTML = stickFigureSVG(nearYouMyColor());
+    me.style.left = communitySimState.myPos.x + '%';
+    me.style.top = communitySimState.myPos.y + '%';
+    stage.appendChild(me);
+
+    var meLabel = document.createElement('div');
+    meLabel.className = 'stage-label is-me';
+    meLabel.id = 'community-sim-me-label';
+    meLabel.textContent = 'you';
+    meLabel.style.left = communitySimState.myPos.x + '%';
+    meLabel.style.top = communitySimState.myPos.y + '%';
+    stage.appendChild(meLabel);
+
+    communitySimState.people.forEach(function (p) {
+      var fig = document.createElement('div');
+      fig.className = 'stage-figure is-friend';
+      fig.dataset.id = p.id;
+      fig.innerHTML = stickFigureSVG(p.color);
+      fig.style.left = p.x + '%';
+      fig.style.top = p.y + '%';
+      fig.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var d = Math.sqrt(Math.pow(p.x - communitySimState.myPos.x, 2) + Math.pow(p.y - communitySimState.myPos.y, 2));
+        if (d > 11) {
+          showToast('Walk closer to say hi');
+          return;
+        }
+        openNearYouModal(p);
+      });
+      stage.appendChild(fig);
+
+      var lbl = document.createElement('div');
+      lbl.className = 'stage-label';
+      lbl.dataset.labelFor = p.id;
+      lbl.textContent = p.handle;
+      lbl.style.left = p.x + '%';
+      lbl.style.top = p.y + '%';
+      stage.appendChild(lbl);
+    });
+
+    var card = document.createElement('div');
+    card.className = 'info-card';
+    card.id = 'community-sim-info-card';
+    card.innerHTML =
+      '<div class="info-card-handle" id="community-sim-info-handle">@—</div>' +
+      '<div class="info-card-track" id="community-sim-info-track">—</div>' +
+      '<button type="button" class="info-card-btn" id="community-sim-info-btn">+ Listen with</button>';
+    stage.appendChild(card);
+    card.querySelector('#community-sim-info-btn').addEventListener('click', toggleCommunitySimListenWith);
+
+    cacheCommunitySimRect();
+    updateCommunitySimInfoCard();
+    communitySimState.wanderTimer = setInterval(function () {
+      var page = document.getElementById('page-communities');
+      if (!page || !page.classList.contains('active')) return;
+      communitySimState.people.forEach(function (p) {
+        p.x = Math.max(8, Math.min(92, p.x + (Math.random() * 6 - 3)));
+        p.y = Math.max(14, Math.min(90, p.y + (Math.random() * 6 - 3)));
+        var fig = stage.querySelector('.stage-figure[data-id="' + p.id + '"]');
+        var lbl = stage.querySelector('.stage-label[data-label-for="' + p.id + '"]');
+        if (fig) {
+          fig.style.left = p.x + '%';
+          fig.style.top = p.y + '%';
+        }
+        if (lbl) {
+          lbl.style.left = p.x + '%';
+          lbl.style.top = p.y + '%';
+        }
+      });
+      updateCommunitySimInfoCard();
+      updateCommunitySimLink();
+    }, 2800);
+  }
+
+  function bindCommunitySimPointer() {
+    var stage = document.getElementById('community-sim-stage');
+    if (!stage || stage.dataset.bound === '1') return;
+    stage.dataset.bound = '1';
+    stage.addEventListener('mousemove', function (ev) {
+      if (!communitySimState.rect) cacheCommunitySimRect();
+      if (!communitySimState.rect) return;
+      var px = ev.clientX - communitySimState.rect.left;
+      var py = ev.clientY - communitySimState.rect.top;
+      var xPct = Math.max(4, Math.min(96, (px / communitySimState.rect.width) * 100));
+      var yPct = Math.max(10, Math.min(94, (py / communitySimState.rect.height) * 100));
+      var dx = xPct - communitySimState.lastPos.x;
+      var dy = yPct - communitySimState.lastPos.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (Math.abs(dx) > 0.35) communitySimState.facingLeft = dx < 0;
+      communitySimState.lastPos.x = communitySimState.myPos.x;
+      communitySimState.lastPos.y = communitySimState.myPos.y;
+      communitySimState.myPos.x = xPct;
+      communitySimState.myPos.y = yPct;
+      var me = document.getElementById('community-sim-me');
+      var lbl = document.getElementById('community-sim-me-label');
+      if (me) {
+        me.style.left = xPct + '%';
+        me.style.top = yPct + '%';
+        me.classList.toggle('faces-left', communitySimState.facingLeft);
+        if (dist > 0.05) me.classList.add('is-walking');
+        else me.classList.remove('is-walking');
+      }
+      if (lbl) {
+        lbl.style.left = xPct + '%';
+        lbl.style.top = yPct + '%';
+      }
+      if (communitySimState.walkTimeout) clearTimeout(communitySimState.walkTimeout);
+      communitySimState.walkTimeout = setTimeout(function () {
+        if (me) me.classList.remove('is-walking');
+      }, 140);
+      updateCommunitySimInfoCard();
+      updateCommunitySimLink();
+    });
+    window.addEventListener('resize', cacheCommunitySimRect);
+    window.addEventListener('scroll', cacheCommunitySimRect, { passive: true });
+  }
+
+  function nearestCommunitySimPerson() {
+    var min = Infinity;
+    var hit = null;
+    communitySimState.people.forEach(function (p) {
+      var d = distancePtPt(p.x, p.y, communitySimState.myPos.x, communitySimState.myPos.y);
+      if (d <= NEARBY_THRESHOLD && d < min) {
+        min = d;
+        hit = p;
+      }
+    });
+    return hit;
+  }
+
+  function updateCommunitySimInfoCard() {
+    var stage = document.getElementById('community-sim-stage');
+    var card = document.getElementById('community-sim-info-card');
+    if (!stage || !card) return;
+    var p = nearestCommunitySimPerson();
+    if (!p) {
+      card.classList.remove('is-visible');
+      if (communitySimState.linkTo) {
+        communitySimState.linkTo = null;
+      }
+      return;
+    }
+
+    var sideRight = p.x < 58;
+    var cx = sideRight ? (p.x + 6) : (p.x - 6);
+    var cy = p.y - 6;
+    card.classList.remove('side-left', 'side-right');
+    card.classList.add(sideRight ? 'side-right' : 'side-left');
+    card.style.left = cx + '%';
+    card.style.top = cy + '%';
+    card.classList.add('is-visible');
+    card.dataset.targetId = p.id;
+
+    var hEl = document.getElementById('community-sim-info-handle');
+    var tEl = document.getElementById('community-sim-info-track');
+    var bEl = document.getElementById('community-sim-info-btn');
+    if (hEl) hEl.textContent = p.handle;
+    if (tEl) tEl.textContent = p.listening;
+    if (bEl) {
+      if (communitySimState.linkTo === p.id) {
+        bEl.classList.add('is-active');
+        bEl.textContent = '◆ Listening with ' + p.handle;
+      } else {
+        bEl.classList.remove('is-active');
+        bEl.textContent = '+ Listen with ' + p.handle;
+      }
+    }
+  }
+
+  function toggleCommunitySimListenWith(e) {
+    e.stopPropagation();
+    var card = document.getElementById('community-sim-info-card');
+    if (!card) return;
+    var pid = card.dataset.targetId;
+    if (!pid) return;
+    if (communitySimState.linkTo === pid) {
+      communitySimState.linkTo = null;
+      showToast('Stopped listening together');
+    } else {
+      communitySimState.linkTo = pid;
+      var p = communitySimState.people.find(function (x) { return x.id === pid; });
+      if (p) showToast('Now listening with ' + p.handle + ' ✦');
+    }
+    updateCommunitySimInfoCard();
+    updateCommunitySimLink();
+  }
+
+  function updateCommunitySimLink() {
+    var svg = document.getElementById('community-sim-link');
+    if (!svg) return;
+    svg.innerHTML = '';
+    if (!communitySimState.linkTo) return;
+    var p = communitySimState.people.find(function (x) { return x.id === communitySimState.linkTo; });
+    if (!p) return;
+    svg.setAttribute('viewBox', '0 0 100 100');
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', communitySimState.myPos.x);
+    line.setAttribute('y1', communitySimState.myPos.y - 4);
+    line.setAttribute('x2', p.x);
+    line.setAttribute('y2', p.y - 4);
+    svg.appendChild(line);
   }
  
   function benchSVG() {
@@ -3877,9 +4477,15 @@ else             me.classList.remove('is-walking');
     }, 2800);
   }
  
-  document.addEventListener('DOMContentLoaded', buildNearYouStage);
+  document.addEventListener('DOMContentLoaded', function () {
+    buildNearYouStage();
+    bindCommunitySimPointer();
+    buildCommunitySimStage();
+  });
   if (document.readyState === 'interactive' || document.readyState === 'complete') {
     buildNearYouStage();
+    bindCommunitySimPointer();
+    buildCommunitySimStage();
   }
  
   (function watchPageSwitch() {
