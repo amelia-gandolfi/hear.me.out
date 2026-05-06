@@ -1322,6 +1322,160 @@
     border-color: var(--accent);
   }
 
+  .discover-community-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .discover-community-card {
+    background: #F8F5EE;
+    border: 1px solid var(--border);
+    border-radius: 12px 10px 14px 8px;
+    padding: 10px 10px 9px;
+  }
+
+  .discover-community-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .discover-community-meta {
+    font-size: 10px;
+    color: var(--text-mid);
+    margin-bottom: 5px;
+  }
+
+  .discover-community-note {
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .discover-geo-block {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #F8F5EE;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+
+  .discover-geo-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+
+  .discover-geo-map {
+    position: relative;
+    height: 140px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-image: url('assets/discover-geo-nyc.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center 21%;
+  }
+
+  .discover-geo-map::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: rgba(250, 250, 247, 0.40);
+  }
+
+  .geo-pin {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  }
+
+  .geo-pin::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+    background: rgba(250,250,247,0.95);
+  }
+
+  .geo-pin.you {
+    background: #FF2D8B;
+    left: 47%;
+    top: 58%;
+  }
+
+  .geo-pin.c1 { background: #2F3645; left: 62%; top: 34%; }
+  .geo-pin.c2 { background: #2F3645; left: 27%; top: 43%; }
+  .geo-pin.c3 { background: #2F3645; left: 68%; top: 74%; }
+
+  .geo-label {
+    position: absolute;
+    transform: translateY(-100%);
+    font-size: 13px;
+    color: var(--text);
+    background: rgba(250,250,247,0.9);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 11px;
+    white-space: nowrap;
+  }
+
+  .discover-people-subline {
+    margin-top: -3px;
+    margin-bottom: 8px;
+    font-size: 10px;
+    color: var(--text-mid);
+    line-height: 1.35;
+  }
+
+  .discover-people-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .discover-person-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #F8F5EE;
+    padding: 8px;
+  }
+
+  .discover-person-handle {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .discover-person-note {
+    font-size: 9px;
+    color: var(--text-mid);
+    line-height: 1.35;
+  }
+
+  .geo-label.you { left: 48%; top: 60%; font-weight: 700; }
+  .geo-label.l1 { left: 63.5%; top: 35.5%; }
+  .geo-label.l2 { left: 29%; top: 45%; }
+  .geo-label.l3 { left: 69.5%; top: 76%; }
+
   /* =====================
      COMMUNITIES PAGE
   ===================== */
@@ -2578,40 +2732,71 @@
     </div>
   </div>
 
-  <div class="discover-sections">
-    <div>
-      <div class="discover-section-label">Trending in Your Community</div>
-      <div class="discover-grid">
-        <div class="discover-card" onclick="goToReview('Bright Future', 'Adrianne Lenker')">
-          <div class="album-art" style="font-size:32px;">🎸</div>
-          <div class="discover-title">Bright Future</div>
-          <div class="discover-artist">Adrianne Lenker</div>
-          <div class="discover-rating">★ 4.8 · 34 reviews</div>
-        </div>
-        <div class="discover-card" onclick="goToReview('Space 1.8', 'Nala Sinephro')">
-          <div class="album-art" style="font-size:32px;">🎷</div>
-          <div class="discover-title">Space 1.8</div>
-          <div class="discover-artist">Nala Sinephro</div>
-          <div class="discover-rating">★ 4.9 · 28 reviews</div>
-        </div>
-      </div>
+  <div class="discover-section-label">Discover Communities</div>
+  <div class="discover-community-grid">
+    <div class="discover-community-card">
+      <div class="discover-community-name">K-Pop Stans</div>
+      <div class="discover-community-meta">@SammyG, @BagelLover1 + 12 others</div>
+      <div class="discover-community-note">Global, hyper-engaged fandom where music, visuals, and performance are inseparable.</div>
     </div>
-    <div>
-      <div class="discover-section-label">Heard through your network</div>
-      <div class="discover-grid">
-        <div class="discover-card" onclick="goToReview('Afrique Victime', 'Mdou Moctar')">
-          <div class="album-art" style="font-size:32px;">🎹</div>
-          <div class="discover-title">Afrique Victime</div>
-          <div class="discover-artist">Mdou Moctar</div>
-          <div class="discover-rating">★ 4.7 · 19 reviews</div>
-        </div>
-        <div class="discover-card" onclick="goToReview('Gold', 'Alabaster dePlume')">
-          <div class="album-art" style="font-size:32px;">🎺</div>
-          <div class="discover-title">Gold</div>
-          <div class="discover-artist">Alabaster dePlume</div>
-          <div class="discover-rating">★ 4.6 · 11 reviews</div>
-        </div>
-      </div>
+    <div class="discover-community-card">
+      <div class="discover-community-name">Bushwick Warehouse Techno</div>
+      <div class="discover-community-meta">@nighttrain, @r0tary + 17 others</div>
+      <div class="discover-community-note">Raw, industrial, and underground. Sound built for dark rooms and relentless energy.</div>
+    </div>
+    <div class="discover-community-card">
+      <div class="discover-community-name">Afrobeats Global Fans</div>
+      <div class="discover-community-meta">@zola.wav, @kei.sun + 33 others</div>
+      <div class="discover-community-note">Rhythmic, melodic, and borderless. Music that travels across cultures and scenes.</div>
+    </div>
+    <div class="discover-community-card">
+      <div class="discover-community-name">Songs That Feel Like Movies</div>
+      <div class="discover-community-meta">@filmgrain.fm, @slowburn + 21 others</div>
+      <div class="discover-community-note">Cinematic and immersive. Tracks that unfold like scenes with emotional arcs.</div>
+    </div>
+  </div>
+
+  <div class="discover-geo-block">
+    <div class="discover-geo-title">Find Communities Nearby</div>
+    <div class="discover-geo-map" aria-hidden="true">
+      <span class="geo-pin you"></span>
+      <span class="geo-pin c1"></span>
+      <span class="geo-pin c2"></span>
+      <span class="geo-pin c3"></span>
+
+      <span class="geo-label you">You</span>
+      <span class="geo-label l1">Bushwick Warehouse Techno</span>
+      <span class="geo-label l2">Lower East Side Indie</span>
+      <span class="geo-label l3">NYC Afrobeats Link-Up</span>
+    </div>
+  </div>
+
+  <div class="discover-section-label">People You May Know</div>
+  <div class="discover-people-subline">friends of friends, people in your communities, people with shared interests.</div>
+  <div class="discover-people-grid">
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@jules.afterdark</div>
+      <div class="discover-person-note">2 mutuals · Late Night Listeners</div>
+    </div>
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@mina.records</div>
+      <div class="discover-person-note">3 mutuals · Vinyl Only Listeners</div>
+    </div>
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@bushwick.sets</div>
+      <div class="discover-person-note">1 mutual · Bushwick Warehouse Techno</div>
+    </div>
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@harlem.soulclub</div>
+      <div class="discover-person-note">2 mutuals · NYC Jazz</div>
+    </div>
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@filmgrain.friday</div>
+      <div class="discover-person-note">Shared interest · Songs That Feel Like Movies</div>
+    </div>
+    <div class="discover-person-card">
+      <div class="discover-person-handle">@les.indiekid</div>
+      <div class="discover-person-note">2 mutuals · Lower East Side Indie</div>
     </div>
   </div>
 
