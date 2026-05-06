@@ -185,8 +185,8 @@
   /* Stick figure containers */
   .stage-figure {
     position: absolute;
-    width: 56px;
-    height: 72px;
+    width: 66px;
+    height: 85px;
     transform: translate(-50%, -100%);
     pointer-events: none;
     z-index: 3;
@@ -312,18 +312,22 @@
   .music-note {
     position: absolute;
     transform: translate(-50%, -100%);
-    margin-top: -22px;
-    font-size: 16px;
+    margin-top: -24px;
+    font-size: 18px;
+    line-height: 1;
     pointer-events: none;
-    z-index: 4;
+    z-index: 5;
     opacity: 0;
     font-weight: 700;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))
+            drop-shadow(0 0 9px rgba(255, 45, 139, 0.28));
     animation: noteFloat 3s ease-out forwards;
   }
   @keyframes noteFloat {
-    0%   { opacity: 0; transform: translate(-50%, -100%) translateY(0)   translateX(0)  rotate(-8deg) scale(0.8); }
-    15%  { opacity: 1; }
-    100% { opacity: 0; transform: translate(-50%, -100%) translateY(-50px) translateX(18px) rotate(12deg) scale(1.1); }
+    0%   { opacity: 0; transform: translate(-50%, -100%) translateY(0)   translateX(0)  rotate(-9deg) scale(0.84); }
+    14%  { opacity: 1; }
+    42%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -100%) translateY(-64px) translateX(21px) rotate(14deg) scale(1.18); }
   }
  
  
@@ -331,14 +335,14 @@
   .stage-label {
     position: absolute;
     transform: translate(-50%, -100%);
-    margin-top: -12px;
-    font-size: 10px;
+    margin-top: -14px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.5px;
     color: var(--text);
     background: rgba(248, 245, 238, 0.94);
     border: 1px solid var(--border);
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 999px;
     pointer-events: none;
     white-space: nowrap;
@@ -1330,6 +1334,8 @@
   }
 
   .discover-community-card {
+    display: flex;
+    flex-direction: column;
     background: #F8F5EE;
     border: 1px solid var(--border);
     border-radius: 12px 10px 14px 8px;
@@ -1354,6 +1360,21 @@
     color: var(--accent);
     font-weight: 600;
     line-height: 1.3;
+    flex: 1;
+  }
+
+  .discover-community-join {
+    display: block;
+    margin-top: 9px;
+    padding: 7px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    color: #FF2D8B;
+    background: rgba(255, 45, 139, 0.08);
+    border: 1px solid rgba(255, 45, 139, 0.35);
+    border-radius: 8px;
+    user-select: none;
   }
 
   .discover-geo-block {
@@ -1437,11 +1458,9 @@
   }
 
   .discover-people-subline {
-    margin-top: -3px;
-    margin-bottom: 8px;
-    font-size: 10px;
+    font-size: 12px;
     color: var(--text-mid);
-    line-height: 1.35;
+    margin-bottom: 10px;
   }
 
   .discover-people-grid {
@@ -1452,23 +1471,43 @@
   }
 
   .discover-person-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
     border: 1px solid var(--border);
     border-radius: 10px;
     background: #F8F5EE;
     padding: 8px;
   }
 
+  .discover-person-add-btn {
+    display: inline-block;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 6px 8px;
+    font: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF2D8B;
+    background: rgba(255, 45, 139, 0.08);
+    border: 1px solid rgba(255, 45, 139, 0.35);
+    border-radius: 8px;
+    white-space: nowrap;
+    line-height: 1.2;
+    user-select: none;
+  }
+
+  .discover-person-body {
+    flex: 1;
+    min-width: 0;
+  }
+
   .discover-person-handle {
     font-size: 11px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 3px;
-  }
-
-  .discover-person-note {
-    font-size: 9px;
-    color: var(--text-mid);
-    line-height: 1.35;
+    margin: 0;
   }
 
   .geo-label.you { left: 48%; top: 60%; font-weight: 700; }
@@ -1574,6 +1613,7 @@
       radial-gradient(circle at 22% 28%, rgba(255, 45, 139, 0.10), transparent 38%),
       radial-gradient(circle at 78% 70%, rgba(47, 54, 69, 0.12), transparent 42%),
       radial-gradient(circle at 50% 92%, rgba(196, 92, 38, 0.07), transparent 45%),
+      radial-gradient(circle at 12% 80%, rgba(69, 123, 157, 0.09), transparent 40%),
       linear-gradient(160deg, #F8F5EE 0%, #EFEAE1 100%);
   }
 
@@ -1586,47 +1626,9 @@
     background: repeating-linear-gradient(24deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 7px);
   }
 
-  /* =====================
-     COMMUNITY ROOM ENVIRONMENTS
-     Each community has its own themed background scene.
-     Environment elements sit at z-index 0; figures are z-index 3+.
-  ===================== */
-
-  /* Hide all environment layers by default; the active room class shows them */
-  .room-env { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-  .community-sim-stage.room-brooklyn  .room-env.env-brooklyn  { display: block; }
-  .community-sim-stage.room-jazz      .room-env.env-jazz      { display: block; }
-  .community-sim-stage.room-latenight .room-env.env-latenight { display: block; }
-  .community-sim-stage.room-vinyl     .room-env.env-vinyl     { display: block; }
-
-  /* Override the default stage background per theme so each room feels distinct */
-  .community-sim-stage.room-brooklyn {
-    background: linear-gradient(180deg, #fbd5b8 0%, #f7b48f 60%, #e89373 100%);
-  }
-  .community-sim-stage.room-jazz {
-    background: radial-gradient(circle at 50% 100%, #3b2952 0%, #1d1530 100%);
-  }
-  .community-sim-stage.room-latenight {
-    background: linear-gradient(180deg, #1c2447 0%, #0f1226 100%);
-  }
-  .community-sim-stage.room-vinyl {
-    background: linear-gradient(180deg, #f1e2c4 0%, #d9b986 100%);
-  }
-
-  /* Make figure outlines/text readable on dark rooms */
-  .community-sim-stage.room-jazz .stage-figure svg circle,
-  .community-sim-stage.room-latenight .stage-figure svg circle {
-    stroke: #FAFAF7;
-  }
-  .community-sim-stage.room-jazz .stage-figure svg line,
-  .community-sim-stage.room-latenight .stage-figure svg line {
-    stroke: #FAFAF7;
-  }
-  .community-sim-stage.room-jazz .stage-label,
-  .community-sim-stage.room-latenight .stage-label {
-    background: rgba(20, 20, 30, 0.85);
-    color: #FAFAF7;
-    border-color: rgba(255,255,255,0.2);
+  /* Room-themed SVG backdrops disabled */
+  .community-sim-stage .room-env {
+    display: none !important;
   }
 
   .room-env svg { width: 100%; height: 100%; display: block; }
@@ -1636,7 +1638,7 @@
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.1px;
     text-transform: uppercase;
@@ -1650,27 +1652,19 @@
     white-space: nowrap;
   }
 
-  .community-sim-stage .stage-figure {
-    transform: translate(-50%, -100%) scale(0.76);
-    transform-origin: center bottom;
-  }
-
-  .community-sim-stage .stage-label {
-    transform: translate(-50%, -100%) scale(0.82);
-    transform-origin: center bottom;
-    font-size: 8px;
-    margin-top: -10px;
+  .community-sim-stage .stage-link-svg {
+    z-index: 2;
   }
 
   .community-sim-stage .info-card {
-    width: min(170px, 56%);
-    padding: 8px 10px;
+    width: min(186px, 58%);
+    padding: 9px 11px;
     z-index: 9;
   }
 
-  .community-sim-stage .info-card-handle { font-size: 11px; }
-  .community-sim-stage .info-card-track { font-size: 10px; }
-  .community-sim-stage .info-card-btn { font-size: 8px; padding: 5px 8px; }
+  .community-sim-stage .info-card-handle { font-size: 12px; }
+  .community-sim-stage .info-card-track { font-size: 11px; }
+  .community-sim-stage .info-card-btn { font-size: 9px; padding: 6px 9px; }
 
   @media (max-width: 960px) {
     .community-page-layout {
@@ -1837,7 +1831,6 @@
   }
 
   .playlist-note {
-    font-family: 'Lora', serif;
     font-size: 12px;
     color: var(--text-mid);
     margin-bottom: 10px;
@@ -2738,21 +2731,25 @@
       <div class="discover-community-name">K-Pop Stans</div>
       <div class="discover-community-meta">@SammyG, @BagelLover1 + 12 others</div>
       <div class="discover-community-note">Global, hyper-engaged fandom where music, visuals, and performance are inseparable.</div>
+      <span class="discover-community-join" aria-hidden="true">Join Community</span>
     </div>
     <div class="discover-community-card">
       <div class="discover-community-name">Bushwick Warehouse Techno</div>
       <div class="discover-community-meta">@nighttrain, @r0tary + 17 others</div>
       <div class="discover-community-note">Raw, industrial, and underground. Sound built for dark rooms and relentless energy.</div>
+      <span class="discover-community-join" aria-hidden="true">Join Community</span>
     </div>
     <div class="discover-community-card">
       <div class="discover-community-name">Afrobeats Global Fans</div>
       <div class="discover-community-meta">@zola.wav, @kei.sun + 33 others</div>
       <div class="discover-community-note">Rhythmic, melodic, and borderless. Music that travels across cultures and scenes.</div>
+      <span class="discover-community-join" aria-hidden="true">Join Community</span>
     </div>
     <div class="discover-community-card">
       <div class="discover-community-name">Songs That Feel Like Movies</div>
       <div class="discover-community-meta">@filmgrain.fm, @slowburn + 21 others</div>
       <div class="discover-community-note">Cinematic and immersive. Tracks that unfold like scenes with emotional arcs.</div>
+      <span class="discover-community-join" aria-hidden="true">Join Community</span>
     </div>
   </div>
 
@@ -2775,28 +2772,40 @@
   <div class="discover-people-subline">friends of friends, people in your communities, people with shared interests.</div>
   <div class="discover-people-grid">
     <div class="discover-person-card">
-      <div class="discover-person-handle">@jules.afterdark</div>
-      <div class="discover-person-note">2 mutuals · Late Night Listeners</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@jules.afterdark</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
     <div class="discover-person-card">
-      <div class="discover-person-handle">@mina.records</div>
-      <div class="discover-person-note">3 mutuals · Vinyl Only Listeners</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@mina.records</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
     <div class="discover-person-card">
-      <div class="discover-person-handle">@bushwick.sets</div>
-      <div class="discover-person-note">1 mutual · Bushwick Warehouse Techno</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@bushwick.sets</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
     <div class="discover-person-card">
-      <div class="discover-person-handle">@harlem.soulclub</div>
-      <div class="discover-person-note">2 mutuals · NYC Jazz</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@harlem.soulclub</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
     <div class="discover-person-card">
-      <div class="discover-person-handle">@filmgrain.friday</div>
-      <div class="discover-person-note">Shared interest · Songs That Feel Like Movies</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@filmgrain.friday</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
     <div class="discover-person-card">
-      <div class="discover-person-handle">@les.indiekid</div>
-      <div class="discover-person-note">2 mutuals · Lower East Side Indie</div>
+      <div class="discover-person-body">
+        <div class="discover-person-handle">@les.indiekid</div>
+      </div>
+      <span class="discover-person-add-btn" aria-hidden="true">+ Add Friend</span>
     </div>
   </div>
 
@@ -2975,6 +2984,11 @@
   <aside class="community-page-stage-column">
     <div class="section-label community-stage-title">Active in your community</div>
     <div class="community-sim-stage" id="community-sim-stage">
+      <div class="stage-shape s1"></div>
+      <div class="stage-shape s2"></div>
+      <div class="stage-shape s3"></div>
+      <div class="stage-shape s4"></div>
+      <div class="stage-shape s5"></div>
       <!-- Brooklyn Scene — rooftop at golden hour -->
       <div class="room-env env-brooklyn">
         <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMax slice">
@@ -3996,13 +4010,17 @@
       var page = document.getElementById('page-communities');
       if (!page || !page.classList.contains('active')) return;
       communitySimState.people.forEach(function (p) {
-        p.x = Math.max(8, Math.min(92, p.x + (Math.random() * 6 - 3)));
-        p.y = Math.max(14, Math.min(90, p.y + (Math.random() * 6 - 3)));
+        var oldX = p.x;
+        p.x = Math.max(8, Math.min(92, p.x + (Math.random() * 5 - 2.5)));
+        p.y = Math.max(14, Math.min(90, p.y + (Math.random() * 5 - 2.5)));
         var fig = stage.querySelector('.stage-figure[data-id="' + p.id + '"]');
         var lbl = stage.querySelector('.stage-label[data-label-for="' + p.id + '"]');
         if (fig) {
           fig.style.left = p.x + '%';
           fig.style.top = p.y + '%';
+          fig.classList.toggle('faces-left', (p.x - oldX) < 0);
+          fig.classList.add('is-walking');
+          setTimeout(function () { fig.classList.remove('is-walking'); }, 520);
         }
         if (lbl) {
           lbl.style.left = p.x + '%';
@@ -4011,7 +4029,7 @@
       });
       updateCommunitySimInfoCard();
       updateCommunitySimLink();
-    }, 2800);
+    }, 1450);
   }
 
   function bindCommunitySimPointer() {
@@ -4449,8 +4467,10 @@ else             me.classList.remove('is-walking');
   }
  
   // AI characters do random emotes occasionally
+  var ambientEmotesInterval = null;
   function startAmbientEmotes() {
-    setInterval(function () {
+    if (ambientEmotesInterval) return;
+    ambientEmotesInterval = setInterval(function () {
       var page = document.getElementById('page-nearyou');
       if (!page || !page.classList.contains('active')) return;
       var ai = nearYouPeople.filter(function (p) { return p.ai; });
@@ -4544,33 +4564,49 @@ else             me.classList.remove('is-walking');
  
   // ---- MUSIC NOTES ------------------------------------------
   var noteSymbols = ['♪', '♫', '♩', '♬'];
-  function spawnMusicNote(person) {
-    var stage = document.getElementById('nearyou-stage');
+  function spawnMusicNote(person, stageEl) {
+    var stage = stageEl || document.getElementById('nearyou-stage');
     if (!stage) return;
+    var onCommunity = stage.id === 'community-sim-stage';
+    var basePos = onCommunity ? communitySimState.myPos : myPos;
     var n = document.createElement('div');
     n.className = 'music-note';
     n.textContent = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
     n.style.color = person ? person.color : nearYouMyColor();
-    var sx = person ? person.x : myPos.x;
-    var sy = person ? person.y : myPos.y;
+    var sx = person ? person.x : basePos.x;
+    var sy = person ? person.y : basePos.y;
     n.style.left = sx + '%';
     n.style.top = sy + '%';
-    // Slight random horizontal drift via animation delay variance
-    n.style.animationDuration = (2.4 + Math.random() * 1.2) + 's';
+    n.style.animationDuration = (2.45 + Math.random() * 1.05) + 's';
     stage.appendChild(n);
-    setTimeout(function () { n.remove(); }, 4000);
+    setTimeout(function () { n.remove(); }, 4300);
   }
- 
+
+  var musicNoteInterval = null;
   function startMusicNoteEmitter() {
-    setInterval(function () {
-      var page = document.getElementById('page-nearyou');
-      if (!page || !page.classList.contains('active')) return;
-      // ME (only if currently listening with someone OR randomly to feel alive)
-      if (Math.random() < 0.45) spawnMusicNote(null);
-      nearYouPeople.forEach(function (p) {
-        if (Math.random() < 0.40) spawnMusicNote(p);
-      });
-    }, 1400);
+    if (musicNoteInterval) return;
+    musicNoteInterval = setInterval(function () {
+      var pgNy = document.getElementById('page-nearyou');
+      if (pgNy && pgNy.classList.contains('active')) {
+        var stNy = document.getElementById('nearyou-stage');
+        if (stNy) {
+          if (Math.random() < 0.50) spawnMusicNote(null, stNy);
+          nearYouPeople.forEach(function (p) {
+            if (Math.random() < 0.44) spawnMusicNote(p, stNy);
+          });
+        }
+      }
+      var pgCm = document.getElementById('page-communities');
+      if (pgCm && pgCm.classList.contains('active')) {
+        var stCm = document.getElementById('community-sim-stage');
+        if (stCm && communitySimState.people.length) {
+          if (Math.random() < 0.46) spawnMusicNote(null, stCm);
+          communitySimState.people.forEach(function (p) {
+            if (Math.random() < 0.42) spawnMusicNote(p, stCm);
+          });
+        }
+      }
+    }, 1120);
   }
  
   // ---- MODAL ------------------------------------------------
@@ -4630,7 +4666,7 @@ else             me.classList.remove('is-walking');
     if (typeof showToast === 'function') showToast('Said hi ✦');
   }
  
-  // ---- AMBIENT WANDER (AI characters) -----------------------
+  // ---- AMBIENT WANDER (all NPCs — small steps, frequent ticks) -----------------------
   var nearYouWanderTimer = null;
   function startAmbientWander() {
     if (nearYouWanderTimer) clearInterval(nearYouWanderTimer);
@@ -4638,10 +4674,9 @@ else             me.classList.remove('is-walking');
       var page = document.getElementById('page-nearyou');
       if (!page || !page.classList.contains('active')) return;
       nearYouPeople.forEach(function (p) {
-        if (!p.ai) return;
         var oldX = p.x;
-        p.x = Math.max(6,  Math.min(94, p.x + (Math.random() * 6 - 3)));
-        p.y = Math.max(10, Math.min(94, p.y + (Math.random() * 6 - 3)));
+        p.x = Math.max(6,  Math.min(94, p.x + (Math.random() * 5 - 2.5)));
+        p.y = Math.max(10, Math.min(94, p.y + (Math.random() * 5 - 2.5)));
         var fig = document.querySelector('.stage-figure[data-id="' + p.id + '"]');
         var lbl = document.querySelector('.stage-label[data-label-for="' + p.id + '"]');
         if (fig) {
@@ -4649,7 +4684,7 @@ else             me.classList.remove('is-walking');
           fig.style.top = p.y + '%';
           fig.classList.toggle('faces-left', (p.x - oldX) < 0);
           fig.classList.add('is-walking');
-          setTimeout(function () { fig.classList.remove('is-walking'); }, 600);
+          setTimeout(function () { fig.classList.remove('is-walking'); }, 520);
         }
         if (lbl) {
           lbl.style.left = p.x + '%';
@@ -4659,7 +4694,7 @@ else             me.classList.remove('is-walking');
       updateNearbyHighlights();
       updateListenWithBtn();
       updateLinkLine();
-    }, 2800);
+    }, 1450);
   }
  
   document.addEventListener('DOMContentLoaded', function () {
